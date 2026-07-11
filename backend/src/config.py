@@ -3,6 +3,8 @@ import os
 from dotenv import load_dotenv
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+# Prefer backend/.env, fall back to src/.env
+load_dotenv(os.path.join(BASE_DIR, "..", ".env"))
 load_dotenv(os.path.join(BASE_DIR, ".env"))
 
 
