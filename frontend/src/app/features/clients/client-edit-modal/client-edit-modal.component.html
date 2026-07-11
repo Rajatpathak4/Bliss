@@ -1,0 +1,152 @@
+<div class="nx-overlay" (click)="close.emit()">
+  <div class="nx-modal edit-modal" (click)="$event.stopPropagation()">
+    <div class="edit-modal__head">
+      <h3>Update Client — {{ client.policy_holder }}</h3>
+      <button class="edit-modal__close" (click)="close.emit()" aria-label="Close">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <div class="edit-modal__body">
+        <div class="grid">
+          <div class="nx-field">
+            <label class="nx-label">Full Name</label>
+            <div class="nx-input-wrap">
+              <span class="nx-input-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span>
+              <input class="nx-input" formControlName="policy_holder" [class.is-invalid]="f.policy_holder.touched && f.policy_holder.invalid" />
+            </div>
+          </div>
+
+          <div class="nx-field">
+            <label class="nx-label">Email Address</label>
+            <div class="nx-input-wrap">
+              <span class="nx-input-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><polyline points="22,6 12,13 2,6"></polyline></svg></span>
+              <input class="nx-input" formControlName="email" [class.is-invalid]="f.email.touched && f.email.invalid" />
+            </div>
+          </div>
+
+          <div class="nx-field">
+            <label class="nx-label">Phone Number</label>
+            <div class="nx-input-wrap">
+              <span class="nx-input-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg></span>
+              <input class="nx-input" formControlName="phone_number" />
+            </div>
+          </div>
+
+          <div class="nx-field">
+            <label class="nx-label">Address</label>
+            <div class="nx-input-wrap">
+              <input class="nx-input" formControlName="address" />
+            </div>
+          </div>
+
+          <div class="nx-field">
+            <label class="nx-label">Join Date</label>
+            <div class="nx-input-wrap">
+              <span class="nx-input-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
+              <input class="nx-input" type="date" formControlName="commecement_date" />
+            </div>
+          </div>
+
+          
+
+          <div class="nx-field">
+            <label class="nx-label">DOB </label>
+            <div class="nx-input-wrap">
+              <span class="nx-input-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
+              <input class="nx-input" type="date" formControlName="dob" />
+            </div>
+          </div>
+
+          <div class="nx-field">
+            <label class="nx-label">FUP Date</label>
+            <div class="nx-input-wrap">
+              <span class="nx-input-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
+              <input class="nx-input" type="date" formControlName="fup_date" />
+            </div>
+          </div>
+
+          <div class="nx-field">
+            <label class="nx-label">Mode</label>
+            <div class="nx-input-wrap">
+              <input class="nx-input" type="text" formControlName="mode" />
+            </div>
+          </div>
+
+          <div class="nx-field">
+            <label class="nx-label">Family Code</label>
+            <div class="nx-input-wrap">
+              <input class="nx-input" type="text" formControlName="family_code" />
+            </div>
+          </div>
+
+          <div class="nx-field">
+            <label class="nx-label">Policy Number</label>
+            <div class="nx-input-wrap">
+              <input class="nx-input" type="text" formControlName="policy_number" />
+            </div>
+          </div>
+
+          <div class="nx-field">
+            <label class="nx-label">Agency Code</label>
+            <div class="nx-input-wrap">
+              <input class="nx-input" type="text" formControlName="agency_code" />
+            </div>
+          </div>
+
+          <div class="nx-field">
+            <label class="nx-label">Plan</label>
+            <div class="nx-input-wrap">
+              <input class="nx-input" type="text" formControlName="plan" />
+            </div>
+          </div>
+
+
+          <div class="nx-field">
+            <label class="nx-label">Term</label>
+            <div class="nx-input-wrap">
+              <input class="nx-input" type="text" formControlName="term" />
+            </div>
+          </div>
+
+          <div class="nx-field">
+            <label class="nx-label">PPT</label>
+            <div class="nx-input-wrap">
+              <input class="nx-input" type="text" formControlName="ppt" />
+            </div>
+          </div>
+
+          <div class="nx-field">
+            <label class="nx-label">Sum Assured </label>
+            <div class="nx-input-wrap">
+              <input class="nx-input" type="text" formControlName="sum_assured" />
+            </div>
+          </div>
+
+          
+
+          <div class="nx-field">
+            <label class="nx-label">Premium</label>
+            <div class="nx-input-wrap">
+              <input class="nx-input" type="text" formControlName="premium" />
+            </div>
+          </div>
+
+          <div class="nx-field">
+            <label class="nx-label">Nominee</label>
+            <div class="nx-input-wrap">
+              <input class="nx-input" type="text" formControlName="nominee" />
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="edit-modal__foot">
+        <button type="button" class="nx-btn nx-btn--subtle" (click)="close.emit()">Cancel</button>
+        <button type="submit" class="nx-btn nx-btn--primary">Save Changes</button>
+      </div>
+    </form>
+  </div>
+</div>

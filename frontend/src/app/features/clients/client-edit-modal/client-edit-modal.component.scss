@@ -1,0 +1,64 @@
+:host {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15, 23, 42, 0.45);   /* dim backdrop */
+  padding: 20px;
+}
+
+.edit-modal {
+  width: 100%;
+  max-width: 620px;
+  max-height: 85vh;                     /* screen ka 85% se zyada nahi */
+  background: var(--nx-surface, #fff);
+  border-radius: 16px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  overflow: auto;                     /* corners saaf + scroll body me */
+  
+}
+
+.edit-modal__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--nx-border);
+  flex-shrink: 0;
+  h3 { margin: 0; font-size: 17px; font-weight: 700; }
+}
+
+.edit-modal__close {
+  width: 32px; height: 32px;
+  border: none; background: transparent;
+  color: var(--nx-muted); border-radius: 8px; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center;
+  &:hover { background: var(--nx-surface-2); color: var(--nx-text); }
+}
+
+.edit-modal__body {
+  padding: 22px 24px;
+  overflow-y: auto;                     /* extra fields yahan scroll */
+  flex: 1 1 auto;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px 20px;
+}
+
+.edit-modal__foot {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 16px 24px 22px;
+  border-top: 1px solid var(--nx-border);
+  flex-shrink: 0;
+}
+
+@media (max-width: 560px) { .grid { grid-template-columns: 1fr; } }

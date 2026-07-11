@@ -1,0 +1,32 @@
+:host { display: block; min-height: 100vh; background: var(--nx-bg); }
+
+.tabs {
+  background: var(--nx-surface);
+  border-bottom: 1px solid var(--nx-border);
+  display: flex;
+  gap: 8px;
+  padding: 0 24px;
+
+  &__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 6px;
+    margin-right: 18px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--nx-muted);
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    transition: color 0.15s;
+
+    &:hover { color: var(--nx-text-2); text-decoration: none; }
+    &--active { color: var(--nx-primary); border-bottom-color: var(--nx-primary); }
+  }
+}
+
+.content {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 24px;
+}
