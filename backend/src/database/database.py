@@ -34,7 +34,7 @@ Base = declarative_base(metadata=MetaData(schema='public'))
 
 #-------- SECOND DB FOR TRANSACTION ---------------------------------------
 
-engine = create_engine(PG_DB_URL,connect_args={"options": "-c timezone=Asia/Kolkata -c search_path=public"},echo=False)
+engine = create_engine(PG_DB_URL,connect_args={"options": "-c timezone=Asia/Kolkata"},echo=False)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
