@@ -1,10 +1,12 @@
-from functools import lru_cache
+import sys
 import os
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+from functools import lru_cache
 from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
-from .config import Settings
+from config import Settings
 from modules.alerts.crud import create_fup_notifications
 import modules.login.models as models
 from database.database import engine
