@@ -1,3 +1,86 @@
+# import sys
+# import os
+# sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+# from functools import lru_cache
+# from fastapi import Depends, FastAPI
+# from fastapi.middleware.cors import CORSMiddleware
+# from fastapi.responses import RedirectResponse
+# from fastapi.staticfiles import StaticFiles
+# from config import Settings
+# from modules.alerts.crud import create_fup_notifications
+# import modules.login.models as models
+# from database.database import engine
+# from routes import alerts, upload_excel, users, dashboard
+# from starlette.middleware.sessions import SessionMiddleware
+# from apscheduler.schedulers.background import BackgroundScheduler
+
+# models.Base.metadata.create_all(bind=engine)
+
+# @lru_cache
+# def get_settings():
+#     return Settings()
+
+# origins = ["*"] 
+
+# app = FastAPI(
+#     description="Bliss portal api only",
+#     title="Bliss Data api's",
+#     redoc_url="",
+#     dependencies=[Depends(get_settings)],
+#     openapi_url='/openapi.json' if get_settings().doc_enable=='True' else '' ,
+#     swagger_ui_parameters={"defaultModelsExpandDepth": -1},
+   
+# )
+
+# app.add_middleware(
+#     CORSMiddleware,
+#     allow_origins=origins,
+#     allow_credentials=True,
+#     allow_methods=["*"],
+#     allow_headers=["*"],
+# )
+
+# app.include_router(users.routes)
+# app.include_router(dashboard.routes)
+# app.include_router(upload_excel.routes)
+# app.include_router(alerts.routes)
+
+# app.add_middleware(SessionMiddleware, secret_key="61729ba0e591d387b85851d34af9e33bcc6f8e4a74fba56ce9a62f75a34c5892", max_age=36000)
+
+# @app.get('/docs')
+# def docs():
+#     return RedirectResponse('/')
+
+
+# @app.get('/')
+# def Index():
+#     return RedirectResponse('/docs')
+
+# scheduler = BackgroundScheduler()
+# from database.database import SessionLocal
+
+# def notification_scheduler():
+#     db = SessionLocal()
+#     try:
+#         print('IN Scheduler')
+#         create_fup_notifications(db)
+#     except Exception as e:
+#         print(f"Notification Scheduler Error: {e}")
+#     finally:
+#         db.close()
+
+# @app.on_event("startup")
+# def startup_event():
+#     scheduler.add_job(notification_scheduler, trigger="cron", hour=19,minute=29)
+#     scheduler.start()
+
+# @app.on_event("shutdown")
+# def shutdown_event():
+#     scheduler.shutdown()
+#     print("Shutting down scheduled tasks.")
+
+
+
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -5,15 +88,16 @@ from functools import lru_cache
 from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
-from fastapi.staticfiles import StaticFiles
 from config import Settings
 from modules.alerts.crud import create_fup_notifications
 import modules.login.models as models
-from database.database import engine
+from database.database import engine, SessionLocal  # Imported SessionLocal here
 from routes import alerts, upload_excel, users, dashboard
 from starlette.middleware.sessions import SessionMiddleware
-from apscheduler.schedulers.background import BackgroundScheduler
 
+# NOTE: If your app takes too long to deploy or throw errors, 
+# it's safer to run table creation via a separate script or Alembic. 
+# But keeping it here for now if your DB responds instantly.
 models.Base.metadata.create_all(bind=engine)
 
 @lru_cache
@@ -29,7 +113,6 @@ app = FastAPI(
     dependencies=[Depends(get_settings)],
     openapi_url='/openapi.json' if get_settings().doc_enable=='True' else '' ,
     swagger_ui_parameters={"defaultModelsExpandDepth": -1},
-   
 )
 
 app.add_middleware(
@@ -40,42 +123,32 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.add_middleware(SessionMiddleware, secret_key="61729ba0e591d387b85851d34af9e33bcc6f8e4a74fba56ce9a62f75a34c5892", max_age=36000)
+
 app.include_router(users.routes)
 app.include_router(dashboard.routes)
 app.include_router(upload_excel.routes)
 app.include_router(alerts.routes)
 
-app.add_middleware(SessionMiddleware, secret_key="61729ba0e591d387b85851d34af9e33bcc6f8e4a74fba56ce9a62f75a34c5892", max_age=36000)
-
 @app.get('/docs')
 def docs():
     return RedirectResponse('/')
-
 
 @app.get('/')
 def Index():
     return RedirectResponse('/docs')
 
-scheduler = BackgroundScheduler()
-from database.database import SessionLocal
-
-def notification_scheduler():
+# --- CRON REPLACEMENT ENDPOINT ---
+# Instead of a background scheduler, call this URL to trigger the cron job.
+@app.get('/api/cron/notifications')
+def notification_cron_trigger():
     db = SessionLocal()
     try:
-        print('IN Scheduler')
+        print('IN Scheduler via Cron Endpoint')
         create_fup_notifications(db)
+        return {"status": "success", "message": "Notifications processed"}
     except Exception as e:
         print(f"Notification Scheduler Error: {e}")
+        return {"status": "error", "message": str(e)}, 500
     finally:
         db.close()
-
-@app.on_event("startup")
-def startup_event():
-    scheduler.add_job(notification_scheduler, trigger="cron", hour=19,minute=29)
-    scheduler.start()
-
-@app.on_event("shutdown")
-def shutdown_event():
-    scheduler.shutdown()
-    print("Shutting down scheduled tasks.")
-
