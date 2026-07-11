@@ -4,7 +4,7 @@ from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
-from config import Settings
+from .config import Settings
 from modules.alerts.crud import create_fup_notifications
 import modules.login.models as models
 from database.database import engine
