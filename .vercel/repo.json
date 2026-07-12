@@ -1,0 +1,17 @@
+{
+  "remoteName": "origin",
+  "projects": [
+    {
+      "id": "prj_UGG6ti5a7JyOOAoUrNygxjBjrc0A",
+      "name": "bliss",
+      "directory": "backend",
+      "orgId": "team_F1CpRXuvwYwxKuYvzsZj8mFu"
+    },
+    {
+      "id": "prj_0IVlXbO5HiQTu1q13zlZ7vZpzLou",
+      "name": "bliss",
+      "directory": "frontend",
+      "orgId": "team_F1CpRXuvwYwxKuYvzsZj8mFu"
+    }
+  ]
+}
