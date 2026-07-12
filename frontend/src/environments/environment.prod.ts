@@ -1,5 +1,4 @@
 export const environment = {
   production: true,
-  // Set this to your deployed API origin.
-  apiBaseUrl: '/api',
+  apiUrl: 'https://bliss-backend-lyart.vercel.app'
 };
