@@ -10,15 +10,20 @@ PG_DB_URL = f"postgresql://{settings.PG_DB_USER}:{quote_plus(settings.PG_DB_PASS
 
 print('PG_DB_URL:', PG_DB_URL)
 
+# Module-level engine + session factory — yeh woh naam hain jo main.py import karta hai
+engine = create_engine(
+    PG_DB_URL,
+    connect_args={"options": "-c timezone=Asia/Kolkata"},
+    echo=False
+)
+SessionLocal = sessionmaker(bind=engine)
+
+
 class Database:
     def __init__(self):
         self.database_url = PG_DB_URL
-        self.engine = create_engine(
-            PG_DB_URL,
-            connect_args={"options": "-c timezone=Asia/Kolkata"},  # search_path removed
-            echo=False
-        )
-        self.session = sessionmaker(bind=self.engine)
+        self.engine = engine
+        self.session = SessionLocal
 
     @contextmanager
     def connect(self):
@@ -31,6 +36,7 @@ class Database:
             raise e
         finally:
             session.close()
+
 
 def get_db():
     with Database().connect() as db_session:
