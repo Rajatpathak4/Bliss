@@ -55,6 +55,10 @@ def docs():
 def Index():
     return RedirectResponse('/docs')
 
+@app.get("/")
+def root():
+    return {"message": "Hello from Vercel"}
+
 scheduler = BackgroundScheduler()
 from database.database import SessionLocal
 

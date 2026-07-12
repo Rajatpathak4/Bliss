@@ -1,5 +1,5 @@
 from operator import and_
-from turtle import pd
+import pandas as pd
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Query
 import math
