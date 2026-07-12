@@ -134,3 +134,24 @@ def parse_date(value):
     if pd.isna(ts):
         return None
     return ts.date() if ts.time() == pd.Timestamp(0).time() else ts.to_pydatetime()
+
+def pagination(query:Query,page_no=1,limit=10):
+    '''
+    parameters:
+    query:data_base query object
+    page_no:int = 1
+    limit:int = 10
+    return:dict{}
+    '''
+    db_records = query.all()
+    total_pages = math.ceil(len(db_records)/limit)
+    limited_records =  query.offset((page_no - 1) * limit).limit(limit).all()
+    return {
+        'db_data': limited_records,
+        'pagination': {
+            'total_records':len(db_records),
+            'total_pages':total_pages,
+            'current_page':page_no,
+            'items_per_page':limit
+        }
+    }

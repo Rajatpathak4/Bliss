@@ -15,7 +15,6 @@ def check_user_schema(user_schema):
         )
     return None
 
-
 def user_login(user_schema, db):
     try:
         schema_status = check_user_schema(user_schema)
@@ -26,25 +25,30 @@ def user_login(user_schema, db):
             db.query(Users)
             .filter(
                 Users.email == user_schema.email.lower(),
-                Users.is_deleted == False,   # noqa: E712  soft-delete guard
+                Users.is_deleted == False,  # noqa: E712
             )
             .first()
         )
 
-        # 3. Same generic message for "no user" and "wrong password"
-        #    (don't leak which emails exist)
+        # Invalid email/password
         if user is None or not bcrypt_context.verify(
             user_schema.password, user.password
         ):
-            return printCustmMsg(200, 'FALSE', "Incorrect Email or Password")
+            return printCustmMsg(
+                status.HTTP_200_OK,
+                "FALSE",
+                "Incorrect Email or Password"
+            )
 
-        # 4. Clean up any expired tokens, then check for a live one
         now = datetime.now()
+
+        # Delete expired tokens
         db.query(LoginTokens).filter(
             LoginTokens.user_id == user.id,
             LoginTokens.expires_at < now,
         ).delete(synchronize_session=False)
 
+        # Check if user is already logged in
         existing_token = (
             db.query(LoginTokens)
             .filter(
@@ -53,21 +57,35 @@ def user_login(user_schema, db):
             )
             .first()
         )
+
         if existing_token:
-            return printCustmMsg(200, 'FALSE', "You've already logged in")
+            return printCustmMsg(
+                status.HTTP_200_OK,
+                "FALSE",
+                "You've already logged in.",
+                {
+                    "relogin_required": True
+                }
+            )
 
         expiry_minutes = 180
+
         access_token = create_access_token(
-            user.email, user.id, timedelta(minutes=expiry_minutes)
+            user.email,
+            user.id,
+            timedelta(minutes=expiry_minutes)
         )
 
         user.last_login = now
-        db.add(LoginTokens(
-            token=access_token,
-            user_id=user.id,
-            created_at=now,
-            expires_at=now + timedelta(minutes=expiry_minutes),
-        ))
+
+        db.add(
+            LoginTokens(
+                token=access_token,
+                user_id=user.id,
+                created_at=now,
+                expires_at=now + timedelta(minutes=expiry_minutes),
+            )
+        )
 
         user_dict = {
             "uid": user.id,
@@ -84,16 +102,21 @@ def user_login(user_schema, db):
         }
 
         db.commit()
+
         return printCustmMsg(
-            status.HTTP_200_OK, 'TRUE', "Login successfully", user_dict
+            status.HTTP_200_OK,
+            "TRUE",
+            "Login successfully",
+            user_dict,
         )
 
     except Exception as e:
         db.rollback()
         print_error_with_linenumebr(e)
+
         return printCustmMsg(
             status.HTTP_500_INTERNAL_SERVER_ERROR,
-            'FALSE',
+            "FALSE",
             "Something went wrong. Please try after some time",
         )
 
@@ -103,24 +126,50 @@ def update_auth_token(user_schema, db):
         if schema_status:
             return schema_status
 
-        user = db.query(Users).filter(Users.email == user_schema.email.lower(),Users.is_deleted == False).first()
+        user = (
+            db.query(Users)
+            .filter(
+                Users.email == user_schema.email.lower(),
+                Users.is_deleted == False
+            )
+            .first()
+        )
 
-        if user is None or not bcrypt_context.verify(user_schema.password, user.password):
-            return printCustmMsg(status.HTTP_400_BAD_REQUEST,'FALSE',"Invalid credentials")
+        if user is None or not bcrypt_context.verify(
+            user_schema.password,
+            user.password
+        ):
+            return printCustmMsg(
+                status.HTTP_400_BAD_REQUEST,
+                "FALSE",
+                "Invalid credentials"
+            )
+
         now = datetime.now()
 
-        db.query(LoginTokens).filter(LoginTokens.user_id == user.id,).delete(synchronize_session=False)
+        # Remove all existing login sessions
+        db.query(LoginTokens).filter(
+            LoginTokens.user_id == user.id
+        ).delete(synchronize_session=False)
 
-        access_token = create_access_token(user.email, user.id, timedelta(minutes=180))
+        expiry_minutes = 180
+
+        access_token = create_access_token(
+            user.email,
+            user.id,
+            timedelta(minutes=expiry_minutes)
+        )
+
         user.last_login = now
 
-        db.add(LoginTokens(
-            token=access_token,
-            user_id=user.id,
-            created_at=now,
-            expires_at=now + timedelta(minutes=180),
-        ))
-        db.flush()
+        db.add(
+            LoginTokens(
+                token=access_token,
+                user_id=user.id,
+                created_at=now,
+                expires_at=now + timedelta(minutes=expiry_minutes),
+            )
+        )
 
         user_dict = {
             "uid": user.id,
@@ -136,12 +185,21 @@ def update_auth_token(user_schema, db):
             "current_time": now,
         }
 
-        response = printCustmMsg(status.HTTP_200_OK,'TRUE',"Re-Login successfully",user_dict,)
         db.commit()
-        return response
+
+        return printCustmMsg(
+            status.HTTP_200_OK,
+            "TRUE",
+            "Re-Login successfully",
+            user_dict,
+        )
 
     except Exception as e:
         db.rollback()
         print_error_with_linenumebr(e)
-        return printCustmMsg(status.HTTP_500_INTERNAL_SERVER_ERROR,'FALSE',"Something went wrong. Please try after some time",)
 
+        return printCustmMsg(
+            status.HTTP_500_INTERNAL_SERVER_ERROR,
+            "FALSE",
+            "Something went wrong. Please try after some time",
+        )

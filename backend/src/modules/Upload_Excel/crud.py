@@ -256,11 +256,11 @@ def get_premium_stats(db, serviceRequest):
     except Exception as err:
         return customhelper.print_error_with_linenumebr(err)
     
-def get_user_table_data(db, serviceRequest):
+def get_user_table_data(page_no, limit, db, serviceRequest, search=None):
     try:
         user_id = getSessionUserId(serviceRequest)
-        data = []
-        users = (
+
+        query = (
             db.query(
                 UserExcel.id,
                 UserExcel.policy_holder,
@@ -274,12 +274,33 @@ def get_user_table_data(db, serviceRequest):
                 UserExcel.is_deleted == False,
                 UserExcel.user_id == user_id
             )
-            .all()
         )
 
-        for user in users:
+        if search:
+            search_term = f"%{search.strip()}%"
+            query = query.filter(
+                or_(
+                    UserExcel.policy_holder.ilike(search_term),
+                    UserExcel.email.ilike(search_term),
+                    UserExcel.phone_number.ilike(search_term),
+                    UserExcel.policy_number.ilike(search_term),
+                    UserExcel.mode.ilike(search_term),
+                )
+            )
+
+        query = query.order_by(UserExcel.id.desc())
+
+        result = customhelper.pagination(
+            query=query,
+            page_no=page_no,
+            limit=limit
+        )
+
+        data = []
+
+        for user in result["db_data"]:
             data.append({
-                "id":user.id,
+                "id": user.id,
                 "policy_holder": user.policy_holder,
                 "email": user.email,
                 "phone_number": user.phone_number,
@@ -288,7 +309,15 @@ def get_user_table_data(db, serviceRequest):
                 "address": user.address
             })
 
-        return customhelper.printCustmMsg(200, "TRUE", "User data fetched successfully", data)
+        return customhelper.printCustmMsg(
+            200,
+            "TRUE",
+            "User data fetched successfully",
+            {
+                "table_data": data,
+                "pagination": result["pagination"]
+            }
+        )
 
     except Exception as err:
         return customhelper.print_error_with_linenumebr(err)
