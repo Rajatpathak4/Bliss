@@ -74,7 +74,7 @@ def notification_scheduler():
 
 @app.on_event("startup")
 def startup_event():
-    scheduler.add_job(notification_scheduler, trigger="cron", hour=19,minute=29)
+    scheduler.add_job(notification_scheduler, trigger="cron", hour=8,minute=0)
     scheduler.start()
 
 @app.on_event("shutdown")
