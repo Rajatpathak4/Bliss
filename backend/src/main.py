@@ -35,11 +35,11 @@ app = FastAPI(
 
 # ------------------ CORS ------------------
 
-origins = [
-    "http://localhost:4200",
-    "https://bliss-dun-six.vercel.app",      # <-- Replace with your frontend URL
-]
-
+# origins = [
+#     "http://localhost:4200",
+#     "https://bliss-dun-six.vercel.app",      # <-- Replace with your frontend URL
+# ]
+origins = ["*"]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
