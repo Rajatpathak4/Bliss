@@ -12,7 +12,7 @@ print('PG_DB_URL:', PG_DB_URL)
 class Database: 
     def __init__(self):
         self.database_url = PG_DB_URL
-        self.engine = create_engine(PG_DB_URL,connect_args={"options": "-c timezone=Asia/Kolkata -c search_path=public"},echo=False)
+        self.engine = create_engine(PG_DB_URL,connect_args={"options": "-c timezone=Asia/Kolkata"},echo=False)
         self.session = sessionmaker(bind=self.engine)
       
     @contextmanager
