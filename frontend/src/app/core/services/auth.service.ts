@@ -31,7 +31,8 @@ login(payload: LoginRequest): Observable<AuthResponse> {
     .pipe(
       switchMap((res: any) => {
         if (res?.status === 'FALSE') {
-         this.globlSrv.showToastr(res?.message, 'error');
+          this.globlSrv.showToastr(res?.message, 'error');
+          return throwError(() => new Error(res?.message || 'Login failed'));
         }
         return of(this.normalize(res, payload.email));
       }),
