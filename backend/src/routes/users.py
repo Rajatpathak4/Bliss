@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 
 from helper import customhelper
 from helper.sessionData import getSessionUserId
-from modules.login.crud import user_login
+from modules.login.crud import update_auth_token, user_login
 import modules.login.models as models
 import modules.login.schemas as schemas
 import authentication.auth as auth
@@ -51,3 +51,11 @@ def logout(user_id: int, db: Session = Depends(get_db)):
         .delete(synchronize_session=False)
     db.commit()
     return {"message": "Logout successful"}
+
+@routes.post("/re-login")
+def update_token(
+    userrequest: schemas.UserLogin,
+    request: Request,
+    db: Session = Depends(get_db),
+):
+    return update_auth_token(userrequest, db)

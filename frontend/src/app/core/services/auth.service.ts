@@ -15,26 +15,42 @@ import {
 const TOKEN_KEY = 'nexadmin.token';
 const USER_KEY = 'nexadmin.user';
 
-/**
- * Switch to `sessionStorage` if you want the session cleared when the
- * browser tab closes. localStorage keeps the user signed in across tabs.
- */
 const STORAGE: Storage = localStorage;
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   constructor(private httpService: ApiService) {}
 
-login(payload: LoginRequest): Observable<AuthResponse> {
-  return this.httpService.requestCall(API_ENDPOINTS.LOGIN, ApiMethod.POST, payload)
-    .pipe(
-      tap(res => console.log('LOGIN RESPONSE', res)),
-      map((res) => this.normalize(res, payload.email)),
-      tap((res) => {
-        this.persistSession(res);
-      })
-    );
-}
+  /**
+   * Returns the raw backend response so the component can branch on
+   * `status` ('TRUE' | 'FALSE') and the "already logged in" message,
+   * without the service assuming what the UI should do about it.
+   */
+  login(payload: LoginRequest): Observable<any> {
+    return this.httpService.requestCall(API_ENDPOINTS.LOGIN, ApiMethod.POST, payload)
+      .pipe(
+        tap((res: any) => {
+          if (res?.status === 'TRUE') {
+            this.persistSession(this.normalize(res, payload.email));
+          }
+        })
+      );
+  }
+
+  /**
+   * Confirms login on this device after the "already logged in elsewhere"
+   * prompt. `payload` should be the same login payload plus is_confirm.
+   */
+  reLoginUser(payload: LoginRequest & { is_confirm: boolean }): Observable<any> {
+    return this.httpService.requestCall(API_ENDPOINTS.RE_LOGIN, ApiMethod.POST, payload)
+      .pipe(
+        tap((res: any) => {
+          if (res?.status === 'TRUE') {
+            this.persistSession(this.normalize(res, payload.email));
+          }
+        })
+      );
+  }
 
   signup(payload: SignupRequest): Observable<AuthResponse> {
     return this.httpService.requestCall(API_ENDPOINTS.SIGNUP, ApiMethod.POST, payload)
@@ -44,27 +60,16 @@ login(payload: LoginRequest): Observable<AuthResponse> {
       );
   }
 
-  /**
-   * POST /logout — tells the backend to invalidate the token, then clears
-   * local session no matter what the server responds.
-   */
   logout(): Observable<unknown> {
-    // Clear the local session first so route guards react immediately,
-    // then notify the backend (ignoring any error from that call).
     this.clearSession();
     return this.httpService.requestCall(API_ENDPOINTS.LOGOUT, ApiMethod.POST).pipe(catchError(() => of(null)));
   }
 
-  /** Clears local session immediately (used by the interceptor on 401). */
   clearSession(): void {
     STORAGE.removeItem(TOKEN_KEY);
     STORAGE.removeItem(USER_KEY);
   }
 
-  /**
-   * Forgot-password step 1. No dedicated endpoint was provided, so this is a
-   * local stub — wire it to your reset route when you have one.
-   */
   requestResetCode(email: string): Observable<{ sent: boolean }> {
     return of({ sent: !!email });
   }
@@ -82,31 +87,22 @@ login(payload: LoginRequest): Observable<AuthResponse> {
     return raw ? (JSON.parse(raw) as AuthUser) : null;
   }
 
-  /* ---------- helpers ---------- */
-
-  /** Reads whichever token field the backend sends and fills a user fallback. */
-private normalize(
-  res: any,
-  email: string,
-  fullName?: string
-): AuthResponse {
-
-  const data = res.value;
-
-  return {
-    token: data.token,
-    user: {
-      id: data.uid,
-      fullName: data.name,
-      email: data.email,
-      phone_number: '',
-      company: '',
-      role: 'User',
-      location: '',
-      avatarInitials: this.initials(data.name)
-    }
-  };
-}
+  private normalize(res: any, email: string, fullName?: string): AuthResponse {
+    const data = res.value;
+    return {
+      token: data.token,
+      user: {
+        id: data.uid,
+        fullName: data.name,
+        email: data.email,
+        phone_number: '',
+        company: '',
+        role: 'User',
+        location: '',
+        avatarInitials: this.initials(data.name)
+      }
+    };
+  }
 
   private fallbackUser(email: string, fullName?: string): AuthUser {
     const name = fullName || email.split('@')[0];

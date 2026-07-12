@@ -17,6 +17,7 @@ export const API_ENDPOINTS = {
   SIGNUP: '/auth/signup',
   LOGIN: '/auth/login',
   LOGOUT: '/auth/logout',
+  RE_LOGIN: '/re-login',
 
   // ---- Notifications ----
   ALERTS: '/get_notifications',
