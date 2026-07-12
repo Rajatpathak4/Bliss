@@ -1,6 +1,12 @@
 :host { display: contents; }
 
-.view-modal { max-width: 520px; overflow: hidden; }
+.view-modal {
+  max-width: 520px;
+  max-height: 85vh;        // caps total card height
+  display: flex;
+  flex-direction: column;  // header stays fixed, body scrolls
+  overflow: hidden;
+}
 
 .view-modal__head {
   display: flex;
@@ -8,6 +14,7 @@
   gap: 14px;
   padding: 20px 22px;
   border-bottom: 1px solid var(--nx-border);
+  flex-shrink: 0;          // header never shrinks/scrolls
 }
 .view-modal__avatar { width: 46px; height: 46px; border-radius: 12px; font-size: 15px; }
 .view-modal__title { flex: 1; min-width: 0; }
@@ -22,12 +29,18 @@
   &:hover { background: var(--nx-surface-2); color: var(--nx-text); }
 }
 
-.view-modal__body { padding: 4px 22px; }
+.view-modal__body {
+  padding: 4px 22px;
+  overflow-y: auto;        // <-- only this section scrolls
+  flex: 1;
+  min-height: 0;           // required for flex children to actually scroll instead of overflowing
+}
+
 .row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  // gap: 16px;
   padding: 13px 0;
   border-bottom: 1px solid var(--nx-surface-2);
   &:last-child { border-bottom: none; }
@@ -48,4 +61,6 @@
   display: flex;
   justify-content: flex-end;
   padding: 16px 22px 20px;
+  flex-shrink: 0;           // footer stays fixed at bottom too
+  border-top: 1px solid var(--nx-surface-2);
 }

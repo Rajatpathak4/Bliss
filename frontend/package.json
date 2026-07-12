@@ -1,7 +1,7 @@
 {
   "name": "nexadmin",
   "version": "2.4.0",
-  "description": "NexAdmin — client management admin dashboard (Angular, NgModule based, SCSS)",
+  "description": "LIC Tracker — client management admin dashboard (Angular, NgModule based, SCSS)",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -18,8 +18,10 @@
     "@angular/platform-browser": "^17.3.0",
     "@angular/platform-browser-dynamic": "^17.3.0",
     "@angular/router": "^17.3.0",
+    "bootstrap": "^5.3.8",
     "highcharts": "^13.0.0",
     "highcharts-angular": "^3.1.2",
+    "ngx-pagination": "^6.0.3",
     "rxjs": "~7.8.0",
     "sweetalert2": "^11.26.25",
     "tslib": "^2.3.0",

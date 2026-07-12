@@ -57,7 +57,7 @@
     </div>
   </div>
 
-  <div class="table-wrap">
+  <div class="table-wrap" [class.table-wrap--scroll]="clients.length > 10">
   <table class="table">
     <thead>
       <tr>
@@ -187,6 +187,38 @@
     </tbody>
   </table>
 </div>
+
+<div class="pg-wrap" *ngIf="pagination.total_records > 0">
+  <div class="pg-info"></div>
+
+  <div class="pg-controls">
+    <button
+      class="pg-btn"
+      [disabled]="pagination.current_page <= 1"
+      (click)="onPageChange(pagination.current_page - 1)">
+      « Previous
+    </button>
+
+    <span class="pg-page-info">
+      Page {{ pagination.current_page }} / {{ pagination.total_pages }}
+    </span>
+
+    <button
+      class="pg-btn"
+      [disabled]="pagination.current_page >= pagination.total_pages"
+      (click)="onPageChange(pagination.current_page + 1)">
+      Next »
+    </button>
+
+    <select
+      class="pg-size"
+      [(ngModel)]="pageSize"
+      (change)="onPageSizeChange()">
+      <option [ngValue]="10">10</option>
+      <option [ngValue]="20">20</option>
+      <option [ngValue]="50">50</option>
+    </select>
+  </div>
 </div>
 
 <!-- Modals -->

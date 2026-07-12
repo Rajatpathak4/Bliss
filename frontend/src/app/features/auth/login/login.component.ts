@@ -39,18 +39,16 @@ export class LoginComponent {
 
     const { email, password } = this.form.getRawValue();
     this.auth.login({ email: email!, password: password! }).subscribe({
-      next: () => {
-        const returnUrl =
-          this.route.snapshot.queryParamMap.get('returnUrl') || '/dashboard';
-        this.router.navigateByUrl(returnUrl);
-      },
-      error: (err) => {
-        this.loading = false;
-        this.errorMsg =
-          err?.error?.detail ||
-          err?.message ||
-          'Something went wrong. Please try again.';
-      },
+  next: (res) => {
+    if (res?.status !== 'TRUE') {
+      return;
+    }
+    const returnUrl =
+      this.route.snapshot.queryParamMap.get('returnUrl') || '/dashboard';
+    this.router.navigateByUrl(returnUrl).then(result => {
+      console.log('Navigation result:', result);
     });
+  }
+});
   }
 }

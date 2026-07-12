@@ -1,6 +1,6 @@
-# NexAdmin — Angular Admin Dashboard
+# LIC Tracker — Angular Admin Dashboard
 
-A pixel-faithful rebuild of the NexAdmin client-management UI in **Angular (NgModule based — not standalone)** with **SCSS**. Every screen is a real component with its own `.html`, `.ts`, and `.scss` files, and all mock data lives in a single API constant.
+A pixel-faithful rebuild of the LIC Tracker client-management UI in **Angular (NgModule based — not standalone)** with **SCSS**. Every screen is a real component with its own `.html`, `.ts`, and `.scss` files, and all mock data lives in a single API constant.
 
 ## Requirements
 - Node.js 18.13+ (or 20+)

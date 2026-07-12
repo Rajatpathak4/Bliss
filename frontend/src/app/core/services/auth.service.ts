@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { from, Observable, of, EMPTY } from 'rxjs';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 
 import { ApiService } from './api.service';
 import { API_ENDPOINTS, ApiMethod } from '../constants/api-endpoints.constant';
@@ -11,6 +11,8 @@ import {
   LoginRequest,
   SignupRequest,
 } from '../models/user.model';
+import { GlobalServiceService } from './global-service.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 const TOKEN_KEY = 'nexadmin.token';
 const USER_KEY = 'nexadmin.user';
@@ -19,38 +21,81 @@ const STORAGE: Storage = localStorage;
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  constructor(private httpService: ApiService) {}
+  constructor(private httpService: ApiService,private globalService: GlobalServiceService, private router: Router, private route: ActivatedRoute) {}
+
+login(payload: LoginRequest): Observable<any> {
+  return this.httpService
+    .requestCall(API_ENDPOINTS.LOGIN, ApiMethod.POST, payload)
+    .pipe(
+      switchMap((res: any) => {
+
+        if (res?.status === 'TRUE') {
+          this.persistSession(this.normalizeFlow(res, payload.email));
+          return of(res);
+        }
+
+        if (res?.value?.relogin_required) {
+
+          return from(
+            this.globalService.triggerSweetAlert({
+              title: 'Please confirm...',
+              icon: 'warning',
+              text: "You're already logged in on another device. Do you want to terminate that session and log in here?",
+              confirmButtonText: 'Yes',
+              denyButtonText: 'No'
+            })
+          ).pipe(
+            switchMap(result => {
+
+              if (!result.isConfirmed) {
+                return EMPTY;
+              }
+
+              return this.reLoginUser({
+                ...payload,
+                is_confirm: true
+              });
+            })
+          );
+        }
+
+        return of(res);
+      })
+    );
+}
+
+reLoginUser(
+  payload: LoginRequest & { is_confirm: boolean }
+): Observable<any> {
+
+  return this.httpService
+    .requestCall(API_ENDPOINTS.RE_LOGIN, ApiMethod.POST, payload)
+    .pipe(
+      tap((res: any) => {
+        if (res?.status === 'TRUE') {
+          this.persistSession(this.normalizeFlow(res, payload.email));
+        }
+      })
+    );
+}
 
   /**
-   * Returns the raw backend response so the component can branch on
-   * `status` ('TRUE' | 'FALSE') and the "already logged in" message,
-   * without the service assuming what the UI should do about it.
+   * Normalize backend response.
    */
-  login(payload: LoginRequest): Observable<any> {
-    return this.httpService.requestCall(API_ENDPOINTS.LOGIN, ApiMethod.POST, payload)
-      .pipe(
-        tap((res: any) => {
-          if (res?.status === 'TRUE') {
-            this.persistSession(this.normalize(res, payload.email));
-          }
-        })
-      );
-  }
+private normalizeFlow(res: any, email: string): any {
+  const user = res.data || res.value;
 
-  /**
-   * Confirms login on this device after the "already logged in elsewhere"
-   * prompt. `payload` should be the same login payload plus is_confirm.
-   */
-  reLoginUser(payload: LoginRequest & { is_confirm: boolean }): Observable<any> {
-    return this.httpService.requestCall(API_ENDPOINTS.RE_LOGIN, ApiMethod.POST, payload)
-      .pipe(
-        tap((res: any) => {
-          if (res?.status === 'TRUE') {
-            this.persistSession(this.normalize(res, payload.email));
-          }
-        })
-      );
-  }
+  return {
+    uid: user.uid,
+    name: user.name,
+    email: user.email ?? email,
+    token: user.token,
+    redirectUrl: user.redirectUrl,
+    first_redirection: user.first_redirection,
+    is_active: user.is_active,
+    current_time: user.current_time,
+  };
+}
 
   signup(payload: SignupRequest): Observable<AuthResponse> {
     return this.httpService.requestCall(API_ENDPOINTS.SIGNUP, ApiMethod.POST, payload)
