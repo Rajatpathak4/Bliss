@@ -40,14 +40,14 @@ def me(current:models.Users = Depends(auth.get_current_user)):
     return current
 
 @routes.get("/logout")
-def logout(user_id,  db: Session = Depends(get_db), serviceRequest: Request = None):
-    try:
-        user_id = getSessionUserId(serviceRequest)
-        user = db.query(models.LoginTokens).filter(models.LoginTokens.user_id == user_id).first()
-        if not user:
-            raise HTTPException(status_code=404, detail="User not found")
-        db.query(models.LoginTokens).filter(models.LoginTokens.user_id == user_id).delete(synchronize_session=False)
-        db.commit()
-        return {"message": "Logout successful"}
-    except Exception as err:
-        return customhelper.print_error_with_linenumebr(err)
+def logout(user_id: int, db: Session = Depends(get_db)):
+    user = db.query(models.LoginTokens)\
+        .filter(models.LoginTokens.user_id == user_id)\
+        .first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    db.query(models.LoginTokens)\
+        .filter(models.LoginTokens.user_id == user_id)\
+        .delete(synchronize_session=False)
+    db.commit()
+    return {"message": "Logout successful"}
