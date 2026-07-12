@@ -53,9 +53,5 @@ def logout(user_id: int, db: Session = Depends(get_db)):
     return {"message": "Logout successful"}
 
 @routes.post("/re-login")
-def update_token(
-    userrequest: schemas.UserLogin,
-    request: Request,
-    db: Session = Depends(get_db),
-):
+def update_token(userrequest: schemas.UserLogin,request: Request,db: Session = Depends(get_db)):
     return update_auth_token(userrequest, db)
