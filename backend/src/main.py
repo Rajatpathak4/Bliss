@@ -68,13 +68,13 @@ def notification_scheduler():
     finally:
         db.close()
 
-@app.on_event("startup")
-def startup_event():
-    scheduler.add_job(notification_scheduler, trigger="cron", hour=19,minute=29)
-    scheduler.start()
+# @app.on_event("startup")
+# def startup_event():
+#     scheduler.add_job(notification_scheduler, trigger="cron", hour=19,minute=29)
+#     scheduler.start()
 
-@app.on_event("shutdown")
-def shutdown_event():
-    scheduler.shutdown()
-    print("Shutting down scheduled tasks.")
+# @app.on_event("shutdown")
+# def shutdown_event():
+#     scheduler.shutdown()
+#     print("Shutting down scheduled tasks.")
 
