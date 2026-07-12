@@ -6,6 +6,9 @@ import { AuthService } from '../../core/services/auth.service';
 import { NotificationService } from '../../core/services/notification.service';
 import { AppNotification } from '../../core/models/notification.model';
 import { AuthUser } from '../../core/models/user.model';
+import { API_ENDPOINTS, ApiMethod } from '../../core/constants/api-endpoints.constant';
+import { ApiService } from '../../core/services/api.service';
+import { GlobalServiceService } from '../../core/services/global-service.service';
 
 @Component({
   selector: 'app-navbar',
@@ -25,7 +28,9 @@ export class NavbarComponent implements OnInit {
     private auth: AuthService,
     private notificationService: NotificationService,
     private router: Router,
-    private host: ElementRef<HTMLElement>
+    private host: ElementRef<HTMLElement>,
+    private httpService: ApiService,
+    private globalSrv: GlobalServiceService
   ) {}
 
   ngOnInit(): void {
@@ -87,11 +92,15 @@ toggleDark(): void {
     this.router.navigate(['/forgot-password']);
   }
 
-  logout(): void {
+logout(user_id?: number): void {
+  const url = `${API_ENDPOINTS.LOGOUT}?user_id=${user_id}`;
+  this.httpService.requestCall(url, ApiMethod.GET).subscribe((data) => {
     this.profileOpen = false;
-    this.auth.logout().subscribe(); // clears session + notifies backend
+    this.auth.clearSession?.(); 
     this.router.navigate(['/auth/login']);
-  }
+    this.globalSrv.showToastr(data?.message, 'success')
+  });
+}
 
   /** Close open dropdowns when clicking anywhere outside the navbar. */
   @HostListener('document:click', ['$event'])

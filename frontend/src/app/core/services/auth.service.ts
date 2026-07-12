@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { Observable, of, throwError } from 'rxjs';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 
 import { ApiService } from './api.service';
 import { API_ENDPOINTS, ApiMethod } from '../constants/api-endpoints.constant';
@@ -11,6 +11,7 @@ import {
   LoginRequest,
   SignupRequest,
 } from '../models/user.model';
+import { GlobalServiceService } from './global-service.service';
 
 const TOKEN_KEY = 'nexadmin.token';
 const USER_KEY = 'nexadmin.user';
@@ -23,13 +24,17 @@ const STORAGE: Storage = localStorage;
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  constructor(private httpService: ApiService) {}
+  constructor(private httpService: ApiService, private globlSrv: GlobalServiceService) {}
 
 login(payload: LoginRequest): Observable<AuthResponse> {
   return this.httpService.requestCall(API_ENDPOINTS.LOGIN, ApiMethod.POST, payload)
     .pipe(
-      tap(res => console.log('LOGIN RESPONSE', res)),
-      map((res) => this.normalize(res, payload.email)),
+      switchMap((res: any) => {
+        if (res?.status === 'FALSE') {
+         this.globlSrv.showToastr(res?.message, 'error');
+        }
+        return of(this.normalize(res, payload.email));
+      }),
       tap((res) => {
         this.persistSession(res);
       })

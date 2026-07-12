@@ -55,8 +55,6 @@
       <a routerLink="/forgot-password">Forgot password?</a>
     </div>
 
-    <p class="auth-alert" *ngIf="errorMsg">{{ errorMsg }}</p>
-
     <button type="submit" class="nx-btn nx-btn--primary nx-btn--block" [disabled]="loading">
       <ng-container *ngIf="!loading">
         Sign in
