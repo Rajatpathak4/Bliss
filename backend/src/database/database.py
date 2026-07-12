@@ -1,61 +1,70 @@
-from sqlalchemy import create_engine, MetaData
-from sqlalchemy.orm import sessionmaker, declarative_base
 from contextlib import contextmanager
 from urllib.parse import quote_plus
 
+from sqlalchemy import MetaData, create_engine
+from sqlalchemy.orm import declarative_base, sessionmaker
+
 from config import Settings as settings
+
+# ---------------------- DATABASE URL ----------------------
 
 PG_DB_URL = (
     f"postgresql://{settings.PG_DB_USER}:"
     f"{quote_plus(settings.PG_DB_PASSWORD)}@"
     f"{settings.PG_DB_SERVER}:"
     f"{settings.PG_DB_PORT}/"
-    f"{settings.PG_DATABASE}?sslmode=require"
+    f"{settings.PG_DATABASE}"
+    f"?sslmode=require"
 )
 
 print("PG_DB_URL:", PG_DB_URL)
 
-class Database:
-    def __init__(self):
-        self.database_url = PG_DB_URL
-        self.engine = create_engine(
-            PG_DB_URL,
-            echo=False
-        )
-        self.session = sessionmaker(bind=self.engine)
-
-    @contextmanager
-    def connect(self):
-        session = self.session()
-        try:
-            yield session
-            session.commit()
-        except Exception:
-            session.rollback()
-            raise
-        finally:
-            session.close()
-
-
-def get_db():
-    with Database().connect() as db_session:
-        yield db_session
-
-
-Base = declarative_base(metadata=MetaData(schema="public"))
-
-# -------- SECOND DB FOR TRANSACTION ---------------------------------------
+# ---------------------- ENGINE ----------------------
 
 engine = create_engine(
     PG_DB_URL,
-    echo=False
+    echo=False,
+    pool_pre_ping=True,
+    pool_recycle=300,
 )
 
 SessionLocal = sessionmaker(
     autocommit=False,
     autoflush=False,
-    bind=engine
+    bind=engine,
 )
+
+Base = declarative_base(
+    metadata=MetaData(schema="public")
+)
+
+# ---------------------- DATABASE CLASS ----------------------
+
+class Database:
+    def __init__(self):
+        self.engine = engine
+        self.session = SessionLocal
+
+    @contextmanager
+    def connect(self):
+        db = self.session()
+        try:
+            yield db
+            db.commit()
+        except Exception:
+            db.rollback()
+            raise
+        finally:
+            db.close()
+
+# ---------------------- DEPENDENCIES ----------------------
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
 
 def get_transaction_db():
