@@ -7,7 +7,6 @@ from config import Settings as settings
 from sqlalchemy import MetaData
 from sqlalchemy.ext.declarative import declarative_base
 
-Base_URL = "postgresql://neondb_owner:npg_7Ui6VyXxDlLR@ep-solitary-tooth-at9jcq9o-pooler.c-9.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
 PG_DB_URL = Base_URL
 print(PG_DB_URL,'PG_DB_URLPG_DB_URL')
 class Database: 
