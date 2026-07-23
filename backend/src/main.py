@@ -13,8 +13,7 @@ from starlette.middleware.sessions import SessionMiddleware
 from apscheduler.schedulers.background import BackgroundScheduler
 
 from config import Settings
-from database import engine, SessionLocal
-
+from database.database import engine, SessionLocal
 import modules.login.models as models
 from modules.alerts.crud import create_fup_notifications
 
