@@ -40,6 +40,8 @@ app = FastAPI(
 origins = [
     "http://localhost:4200",
     "https://bliss-dun-six.vercel.app",
+    "https://bliss-vnts.vercel.app",
+    
 ]
 
 app.add_middleware(
