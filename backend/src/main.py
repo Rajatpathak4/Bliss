@@ -1,5 +1,8 @@
 import sys
 import os
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
 from functools import lru_cache
 
 from fastapi import Depends, FastAPI
@@ -37,7 +40,7 @@ app = FastAPI(
 
 origins = [
     "http://localhost:4200",
-    "https://bliss-dun-six.vercel.app",      # <-- Replace with your frontend URL
+    "https://bliss-dun-six.vercel.app",
 ]
 
 app.add_middleware(
