@@ -37,6 +37,7 @@ class Database:
         finally:
             session.close()
 
+Base = declarative_base(metadata=MetaData(schema='public'))
 
 def get_db():
     with Database().connect() as db_session:
