@@ -14,8 +14,8 @@ class Settings():
     PG_DATABASE: str = os.getenv("POSTGRES_DB").strip()
     UPLOAD_PATH:str= 'uploads/'
     doc_enable:str=os.getenv('DOC_ENABLE').strip()
-    SMTP_EMAIL: str = os.getenv('SMTP_EMAIL').strip()
-    SMTP_APP_PASSWORD : str = os.getenv('SMTP_APP_PASSWORD').strip()
+    # SMTP_EMAIL: str = os.getenv('SMTP_EMAIL').strip()
+    # SMTP_APP_PASSWORD : str = os.getenv('SMTP_APP_PASSWORD').strip()
     # Token
     SECRET_KEY: str = os.getenv("SECRET_KEY").strip()
     ALGORITHM: str = os.getenv("ALGORITHM").strip()
