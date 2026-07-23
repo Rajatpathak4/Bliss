@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiBaseUrl: 'https://bliss-backend-lyart.vercel.app'
+  apiBaseUrl: 'https://bliss-vnts.vercel.app'
 };
