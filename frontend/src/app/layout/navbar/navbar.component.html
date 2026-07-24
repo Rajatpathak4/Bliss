@@ -2,11 +2,116 @@
   <!-- Brand -->
   <a class="brand" routerLink="/dashboard">
     <span class="brand__logo">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"
-           stroke-linecap="round" stroke-linejoin="round">
-        <line x1="6" y1="20" x2="6" y2="13"></line>
-        <line x1="12" y1="20" x2="12" y2="4"></line>
-        <line x1="18" y1="20" x2="18" y2="9"></line>
+      <svg
+        width="100"
+        height="100"
+        viewBox="0 0 100 100"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <defs>
+          <linearGradient
+            id="bg"
+            x1="0"
+            y1="0"
+            x2="100"
+            y2="100"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop offset="0%" stop-color="#1E3A8A" />
+            <stop offset="100%" stop-color="#0284C7" />
+          </linearGradient>
+          <linearGradient
+            id="shine"
+            x1="50"
+            y1="0"
+            x2="50"
+            y2="100"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop offset="0%" stop-color="white" stop-opacity="0.16" />
+            <stop offset="60%" stop-color="white" stop-opacity="0" />
+          </linearGradient>
+          <radialGradient
+            id="glow"
+            cx="80"
+            cy="43"
+            r="14"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop offset="0%" stop-color="#7DD3FC" stop-opacity="0.55" />
+            <stop offset="100%" stop-color="#7DD3FC" stop-opacity="0" />
+          </radialGradient>
+        </defs>
+
+        <!-- Tile -->
+        <rect width="100" height="100" rx="22" fill="url(#bg)" />
+        <rect width="100" height="100" rx="22" fill="url(#shine)" />
+
+        <!-- Chart grid -->
+        <line
+          x1="12"
+          y1="32"
+          x2="88"
+          y2="32"
+          stroke="white"
+          stroke-width="0.7"
+          opacity="0.07"
+        />
+        <line
+          x1="12"
+          y1="52"
+          x2="88"
+          y2="52"
+          stroke="white"
+          stroke-width="0.7"
+          opacity="0.07"
+        />
+        <line
+          x1="12"
+          y1="72"
+          x2="88"
+          y2="72"
+          stroke="white"
+          stroke-width="0.7"
+          opacity="0.07"
+        />
+
+        <!-- Baseline axis -->
+        <line
+          x1="16"
+          y1="81"
+          x2="84"
+          y2="81"
+          stroke="white"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          opacity="0.22"
+        />
+
+        <!-- L — vertical bar -->
+        <rect x="17" y="16" width="15" height="65" rx="4.5" fill="white" />
+
+        <!-- L — ascending arm (tracking line) -->
+        <line
+          x1="25"
+          y1="79"
+          x2="80"
+          y2="43"
+          stroke="white"
+          stroke-width="15"
+          stroke-linecap="round"
+        />
+
+        <!-- Trail data-points -->
+        <circle cx="39" cy="70" r="2.2" fill="white" opacity="0.45" />
+        <circle cx="52" cy="61" r="2.6" fill="white" opacity="0.62" />
+        <circle cx="66" cy="52" r="3" fill="white" opacity="0.80" />
+
+        <!-- Terminal node glow + pin -->
+        <circle cx="80" cy="43" r="14" fill="url(#glow)" />
+        <circle cx="80" cy="43" r="7.5" fill="white" />
+        <circle cx="80" cy="43" r="3.5" fill="url(#bg)" />
       </svg>
     </span>
     <span class="brand__name">LIC Tracker</span>
@@ -20,9 +125,18 @@
         class="icon-btn"
         [class.icon-btn--active]="notifOpen"
         (click)="toggleNotifications($event)"
-        aria-label="Notifications">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-             stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        aria-label="Notifications"
+      >
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
           <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
           <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
         </svg>
@@ -32,23 +146,54 @@
       <div class="dropdown notif" *ngIf="notifOpen">
         <div class="notif__head">
           <span>Notifications</span>
-          <span class="notif__pill">{{ (notifications$ | async)?.length }} new</span>
+          <span class="notif__pill"
+            >{{ (notifications$ | async)?.length }} new</span
+          >
         </div>
         <div class="notif__list">
           <div class="notif__item" *ngFor="let n of notifications$ | async">
             <span class="notif__icon" [ngClass]="'notif__icon--' + n.type">
               <ng-container [ngSwitch]="n.type">
-                <svg *ngSwitchCase="'warning'" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                     stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line>
+                <svg
+                  *ngSwitchCase="'warning'"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="8" x2="12" y2="12"></line>
                   <line x1="12" y1="16" x2="12.01" y2="16"></line>
                 </svg>
-                <svg *ngSwitchCase="'success'" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                     stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline>
+                <svg
+                  *ngSwitchCase="'success'"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                  <polyline points="22 4 12 14.01 9 11.01"></polyline>
                 </svg>
-                <svg *ngSwitchDefault width="16" height="16" viewBox="0 0 24 24" fill="none"
-                     stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <svg
+                  *ngSwitchDefault
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
                   <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
                   <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
                 </svg>
@@ -56,7 +201,7 @@
             </span>
             <div class="notif__body">
               <p class="notif__msg">{{ n.message }}</p>
-              <span class="notif__time mono">{{ n.date  }}</span>
+              <span class="notif__time mono">{{ n.date }}</span>
             </div>
             <span class="notif__unread" *ngIf="n.unread"></span>
           </div>
@@ -66,17 +211,39 @@
 
     <!-- Dark mode toggle -->
     <button class="icon-btn" (click)="toggleDark()" aria-label="Toggle theme">
-      <svg *ngIf="!darkMode" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-           stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <svg
+        *ngIf="!darkMode"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
       </svg>
-      <svg *ngIf="darkMode" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-           stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <svg
+        *ngIf="darkMode"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
         <circle cx="12" cy="12" r="5"></circle>
-        <line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line>
-        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-        <line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line>
-        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        <line x1="12" y1="1" x2="12" y2="3"></line>
+        <line x1="12" y1="21" x2="12" y2="23"></line>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+        <line x1="1" y1="12" x2="3" y2="12"></line>
+        <line x1="21" y1="12" x2="23" y2="12"></line>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
       </svg>
     </button>
 
@@ -85,37 +252,78 @@
       <button class="profile-btn" (click)="toggleProfile($event)">
         <span class="nx-avatar profile-btn__avatar">{{ initials }}</span>
         <span class="profile-btn__name">{{ shortName }}</span>
-        <svg class="profile-btn__chev" [class.open]="profileOpen" width="16" height="16" viewBox="0 0 24 24"
-             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg
+          class="profile-btn__chev"
+          [class.open]="profileOpen"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
           <polyline points="6 9 12 15 18 9"></polyline>
         </svg>
       </button>
 
       <div class="dropdown profile-menu" *ngIf="profileOpen">
         <div class="profile-menu__head">
-          <p class="profile-menu__name">{{ user?.fullName || 'Guest' }}</p>
-          <p class="profile-menu__email">{{ user?.email || '—' }}</p>
+          <p class="profile-menu__name">{{ user?.fullName || "Guest" }}</p>
+          <p class="profile-menu__email">{{ user?.email || "—" }}</p>
         </div>
         <button class="profile-menu__item" (click)="goProfile()">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
-               stroke-linecap="round" stroke-linejoin="round">
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle>
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
           </svg>
           My Profile
         </button>
         <button class="profile-menu__item" (click)="goForgotPassword()">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
-               stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3"></path>
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3"
+            ></path>
           </svg>
           Forgot Password
         </button>
         <div class="profile-menu__divider"></div>
-        <button class="profile-menu__item profile-menu__item--danger" (click)="logout(user?.id)">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
-               stroke-linecap="round" stroke-linejoin="round">
+        <button
+          class="profile-menu__item profile-menu__item--danger"
+          (click)="logout(user?.id)"
+        >
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-            <polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
           </svg>
           Logout
         </button>
