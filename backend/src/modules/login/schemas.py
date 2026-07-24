@@ -41,3 +41,10 @@ class DashboardCard(BaseModel):
 class DashboardStats(BaseModel):
     greeting: str
     cards: list[DashboardCard]
+
+class ProfileUpdateSchema(BaseModel):
+    name: str | None = None
+    email: EmailStr | None = None
+    phone_number: str | None = None
+    company: str | None = None
+    location: str | None = None

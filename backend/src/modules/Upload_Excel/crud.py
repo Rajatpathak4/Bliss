@@ -152,7 +152,7 @@ def upload_excel(file, db, serviceRequest):
             zipfile.ZipFile(BytesIO(raw_bytes))
         except zipfile.BadZipFile:
             return customhelper.printCustmMsg(
-                400, 'FALSE',
+                200, 'FALSE',
                 "Uploaded file isn't a valid .xlsx — check if it's an old .xls "
                 "or HTML export saved with the wrong extension."
             )
@@ -608,7 +608,6 @@ def get_dashboard_chart_data(db, serviceRequest):
         commence_map = {r.m: r.cnt for r in commence_rows}
         new_clients = [commence_map.get(k, 0) for k in keys]
 
-        # ---- Revenue: SUM(premium) by commencement month ----
         rev_rows = (
             db.query(commence_expr.label('m'),
                      func.coalesce(func.sum(UserExcel.premium), 0).label('amt'))
@@ -624,7 +623,6 @@ def get_dashboard_chart_data(db, serviceRequest):
         revenue = [round(rev_map.get(k, 0)) for k in keys]
         revenue_total = sum(revenue)
 
-        # ---- Premium due tracker (chart): count fup_date by month ----
         due_rows = (
             db.query(fup_expr.label('m'), func.count(UserExcel.id).label('cnt'))
             .filter(
@@ -638,7 +636,6 @@ def get_dashboard_chart_data(db, serviceRequest):
         due_map = {r.m: r.cnt for r in due_rows}
         premium_due_tracker = [due_map.get(k, 0) for k in keys]
 
-        # ---- Active users (chart): policies active at each month-end ----
         active_users = []
         for m in months:
             month_end = (m + timedelta(days=32)).replace(day=1) - timedelta(days=1)
@@ -654,8 +651,6 @@ def get_dashboard_chart_data(db, serviceRequest):
             )
             active_users.append(cnt)
 
-        # ---- CARD numbers ----
-        # active client + percent (same logic as get_active_client)
         total = db.query(UserExcel).filter(
             UserExcel.is_deleted == False,
             UserExcel.user_id == user_id,
@@ -685,11 +680,10 @@ def get_dashboard_chart_data(db, serviceRequest):
         ).count()
 
         stats = [
-            {"label": "Active Users",      "value": f"{active_now} clients",     "icon": "users",  "accent": "indigo", "trend": "up",   "hint": f"{active_percent}% active"},
-            {"label": "Premium Due (45D)", "value": f"{premium_due} renewals",   "icon": "clock",  "accent": "amber",  "trend": "flat", "hint": "Needs attention"},
-            {"label": "Premium Done",      "value": f"{premium_done} completed", "icon": "card",   "accent": "green",  "trend": "up",   "hint": "Last 45 days"},
-            {"label": "Revenue",           "value": f"${revenue_total:,}",       "icon": "dollar", "accent": "purple", "trend": "up",   "hint": "Last 6 months"},
-        ]
+            {"label": "Active Users", "value": f"{active_now} clients", "icon": "users",  "accent": "indigo", "trend": "up",   "hint": f"{active_percent}% active"},
+            {"label": "Premium Due (45D)", "value": f"{premium_due} renewals", "icon": "clock",  "accent": "amber",  "trend": "flat", "hint": "Needs attention"},
+            {"label": "Premium Done", "value": f"{premium_done} completed", "icon": "card",   "accent": "green",  "trend": "up",   "hint": "Last 45 days"},
+            {"label": "Revenue", "value": f"₹{revenue_total:,}", "icon": "rupee", "accent": "purple", "trend": "up", "hint": "Last 6 months"},        ]
 
         return {
             "months": labels,

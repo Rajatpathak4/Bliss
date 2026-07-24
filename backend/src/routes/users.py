@@ -16,7 +16,7 @@ routes = APIRouter(prefix="/auth", tags=["auth"])
 def signup(payload: schemas.UserCreate, db: Session = Depends(get_db)):
     existing = db.query(models.Users).filter(models.Users.email == payload.email).first()
     if existing:
-        raise HTTPException(status_code=400, detail="Email already registered")
+        raise HTTPException(status_code=200, detail="Email already registered")
 
     user =models.Users(
         name=payload.name,
@@ -55,3 +55,6 @@ def logout(user_id: int, db: Session = Depends(get_db)):
 @routes.post("/re-login")
 def update_token(userrequest: schemas.UserLogin,request: Request,db: Session = Depends(get_db)):
     return update_auth_token(userrequest, db)
+
+
+

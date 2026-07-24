@@ -3,7 +3,7 @@ from datetime import timedelta, datetime
 from sqlalchemy import or_, and_
 from helper.customhelper import print_error_with_linenumebr, bcrypt_context, create_access_token, printCustmMsg
 from helper import customhelper
-from modules.login.models import LoginTokens, Users
+from modules.login.models import LoginTokens, UserProfile, Users
 
 
 DASHBOARD_REDIRECT_URL = "/dashboard"
@@ -203,3 +203,68 @@ def update_auth_token(user_schema, db):
             "FALSE",
             "Something went wrong. Please try after some time",
         )
+
+def get_user_profile(db, user_id):
+    user = db.query(Users).filter(Users.id == user_id).first()
+    if not user:
+        return customhelper.printCustmMsg(200, 'FALSE', "User not found")
+
+    profile = db.query(UserProfile).filter(UserProfile.user_id == user_id).first()
+
+    profile_data = {
+        "id": user.id,
+        "fullName": user.name,
+        "email": user.email,
+        "phone_number": profile.phone_number if profile else None,
+        "role": profile.role if profile else None,
+        "company": profile.company if profile else None,
+        "location": profile.location if profile else None,
+        "avatarUrl": profile.avatar_url if profile else None,
+        "avatarInitials": "".join(w[0] for w in user.name.split()[:2]).upper() if user.name else "",
+    }
+    return customhelper.printCustmMsg(200, 'TRUE', "Profile fetched", profile_data)
+
+
+def update_user_profile(db, user_id, payload):
+    try:
+        user = db.query(Users).filter(Users.id == user_id).first()
+        if not user:
+            return customhelper.printCustmMsg(200, 'FALSE', "User not found")
+
+        update_data = payload.dict(exclude_unset=True)
+
+        # naam/email Users table mein rehta hai
+        if 'name' in update_data:
+            user.name = update_data.pop('name')
+        if 'email' in update_data:
+            user.email = update_data.pop('email')
+
+        # baaki fields UserProfile mein — row exist na kare to bana do (upsert)
+        profile = db.query(UserProfile).filter(UserProfile.user_id == user_id).first()
+        if not profile:
+            profile = UserProfile(user_id=user_id)
+            db.add(profile)
+
+        for field_name, field_value in update_data.items():
+            setattr(profile, field_name, field_value)
+
+        db.commit()
+        return customhelper.printCustmMsg(200, 'TRUE', "Profile updated successfully")
+    except Exception:
+        db.rollback()
+        return customhelper.printCustmMsg(500, 'FALSE', "Something went wrong. Please try again.")
+
+
+def update_user_avatar(db, user_id, avatar_url):
+    try:
+        profile = db.query(UserProfile).filter(UserProfile.user_id == user_id).first()
+        if not profile:
+            profile = UserProfile(user_id=user_id)
+            db.add(profile)
+
+        profile.avatar_url = avatar_url
+        db.commit()
+        return customhelper.printCustmMsg(200, 'TRUE', "Profile image updated", {"avatarUrl": avatar_url})
+    except Exception:
+        db.rollback()
+        return customhelper.printCustmMsg(500, 'FALSE', "Something went wrong. Please try again.")
