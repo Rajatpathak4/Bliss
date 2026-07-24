@@ -92,13 +92,17 @@ toggleDark(): void {
     this.router.navigate(['/forgot-password']);
   }
 
-logout(user_id?: number): void {
-  const url = `${API_ENDPOINTS.LOGOUT}?user_id=${user_id}`;
+logout(id?: number): void {
+  if (id == null) {
+    console.error('logout() called without a valid user_id:', id);
+    return; // or fall back to clearing session locally without hitting the API
+  }
+  const url = `${API_ENDPOINTS.LOGOUT}?user_id=${id}`;
   this.httpService.requestCall(url, ApiMethod.GET).subscribe((data) => {
     this.profileOpen = false;
-    this.auth.clearSession?.(); 
+    this.auth.clearSession?.();
     this.router.navigate(['/auth/login']);
-    this.globalSrv.showToastr(data?.message, 'success')
+    this.globalSrv.showToastr(data?.message, 'success');
   });
 }
 

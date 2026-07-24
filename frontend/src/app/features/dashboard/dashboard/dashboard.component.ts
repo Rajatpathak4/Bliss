@@ -68,7 +68,7 @@ export class DashboardComponent implements OnInit {
       ...this.baseAxis(months),
       chart: { type: 'areaspline', backgroundColor: 'transparent', height: 320 },
       colors: ['#14b8a6'],
-      tooltip: { shared: true, valuePrefix: '$' },
+      tooltip: { shared: true, valuePrefix: '₹' },
       plotOptions: {
         areaspline: {
           lineWidth: 3,

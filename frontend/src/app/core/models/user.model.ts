@@ -1,13 +1,13 @@
-export interface AuthUser {
-  id: number;
-  fullName: string;
-  email: string;
-  phone_number: string;
-  company: string;
-  role: string;
-  location: string;
-  avatarInitials: string;
-}
+// export interface AuthUser {
+//   id: number;
+//   fullName: string;
+//   email: string;
+//   phone_number: string;
+//   company: string;
+//   role: string;
+//   location: string;
+//   avatarInitials: string;
+// }
 
 export interface LoginRequest {
   email: string;
@@ -37,4 +37,16 @@ export interface AuthApiResponse {
   token?: string;
   token_type?: string;
   user?: AuthUser;
+}
+
+export interface AuthUser {
+  id: number;
+  fullName: string;
+  email: string;
+  phone_number: string | null;
+  role: string | null;
+  company: string | null;
+  location: string | null;
+  avatarUrl: string | null;
+  avatarInitials: string;
 }

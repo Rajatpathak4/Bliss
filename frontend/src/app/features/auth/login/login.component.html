@@ -29,7 +29,7 @@
           </svg>
         </span>
         <input id="email" type="email" class="nx-input" formControlName="email"
-               placeholder="sarah@company.com"
+               placeholder="Email"
                [class.is-invalid]="f.email.touched && f.email.invalid" />
       </div>
       <span class="nx-error" *ngIf="f.email.touched && f.email.invalid">Enter a valid email address.</span>
@@ -55,15 +55,8 @@
       <a routerLink="/forgot-password">Forgot password?</a>
     </div>
 
-    <button type="submit" class="nx-btn nx-btn--primary nx-btn--block" [disabled]="loading">
-      <ng-container *ngIf="!loading">
-        Sign in
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-             stroke-linecap="round" stroke-linejoin="round">
-          <line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline>
-        </svg>
-      </ng-container>
-      <span *ngIf="loading">Signing in…</span>
+    <button type="submit" class="nx-btn nx-btn--primary nx-btn--block" >
+      <span>Login</span>
     </button>
   </form>
 

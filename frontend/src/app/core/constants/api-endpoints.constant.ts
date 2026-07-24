@@ -39,6 +39,10 @@ export const API_ENDPOINTS = {
   GET_PREMIUM_STATS: '/get_premium_stats', 
   
   GET_DASHBOARD_CHARTS:'/chart_data',
+
+  GET_PROFILE: '/me',
+  UPDATE_PROFILE: '/update',
+  UPLOAD_PROFILE_IMAGE: '/upload-image',
   
 } as const;
 

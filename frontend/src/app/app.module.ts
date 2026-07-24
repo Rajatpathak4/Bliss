@@ -6,16 +6,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LayoutModule } from './layout/layout.module';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
-import { LoaderInterceptor } from './core/interceptors/loader.interceptor';
 import { SharedModule } from './shared/shared.module'; 
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, AppRoutingModule, LayoutModule, SharedModule],
+  imports: [BrowserModule, AppRoutingModule],
   providers: [
   provideHttpClient(withInterceptorsFromDi()),
   { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-  { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
 ],
   bootstrap: [AppComponent],
 })

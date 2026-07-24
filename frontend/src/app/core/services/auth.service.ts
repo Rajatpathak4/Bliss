@@ -31,7 +31,10 @@ login(payload: LoginRequest): Observable<any> {
 
         if (res?.status === 'TRUE') {
           this.persistSession(this.normalizeFlow(res, payload.email));
+          this.globalService.showToastr(res?.message, 'success')
           return of(res);
+        }else{
+          this.globalService.showToastr(res?.message, 'error')
         }
 
         if (res?.value?.relogin_required) {
@@ -79,21 +82,26 @@ reLoginUser(
     );
 }
 
-  /**
-   * Normalize backend response.
-   */
-private normalizeFlow(res: any, email: string): any {
+private normalizeFlow(res: any, email: string): AuthResponse {
   const user = res.data || res.value;
 
   return {
-    uid: user.uid,
-    name: user.name,
-    email: user.email ?? email,
     token: user.token,
-    redirectUrl: user.redirectUrl,
-    first_redirection: user.first_redirection,
-    is_active: user.is_active,
-    current_time: user.current_time,
+    user: {
+      id: user.uid,
+      fullName: user.name,
+      email: user.email ?? email,
+      phone_number: '',
+      company: '',
+      role: 'User',
+      location: '',
+      avatarInitials: this.initials(user.name ?? email),
+      avatarUrl: null,
+      redirectUrl: user.redirectUrl,
+      first_redirection: user.first_redirection,
+      is_active: user.is_active,
+      current_time: user.current_time,
+    } as AuthUser & { redirectUrl?: any; first_redirection?: any; is_active?: any; current_time?: any },
   };
 }
 
@@ -105,10 +113,19 @@ private normalizeFlow(res: any, email: string): any {
       );
   }
 
-  logout(): Observable<unknown> {
+  logout(user_id: number) {
     this.clearSession();
-    return this.httpService.requestCall(API_ENDPOINTS.LOGOUT, ApiMethod.POST).pipe(catchError(() => of(null)));
+    // return this.httpService.requestCall(API_ENDPOINTS.LOGOUT, ApiMethod.POST).pipe(catchError(() => of(null)));
+
+    const url = `${API_ENDPOINTS.LOGOUT}?user_id=${user_id}`;
+  this.httpService.requestCall(url, ApiMethod.GET).subscribe((data) => {
+    // this.profileOpen = false;
+    this.clearSession?.(); 
+    this.router.navigate(['/auth/login']);
+    this.globalService.showToastr(data?.message, 'success')
+  });
   }
+  
 
   clearSession(): void {
     STORAGE.removeItem(TOKEN_KEY);
@@ -144,7 +161,8 @@ private normalizeFlow(res: any, email: string): any {
         company: '',
         role: 'User',
         location: '',
-        avatarInitials: this.initials(data.name)
+        avatarInitials: this.initials(data.name),
+        avatarUrl: null
       }
     };
   }
@@ -160,6 +178,7 @@ private normalizeFlow(res: any, email: string): any {
       role: 'User',
       location: '',
       avatarInitials: this.initials(name),
+      avatarUrl: null,
     };
   }
 

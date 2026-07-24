@@ -7,6 +7,7 @@ import { environment } from '../../../../environments/environment';
 import { GlobalServiceService } from '../../../core/services/global-service.service';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import Swal from 'sweetalert2';
 
 type PanelMode = 'none' | 'upload' | 'add';
 
@@ -105,17 +106,42 @@ export class ClientsComponent implements OnInit, OnDestroy {
       });
   }
 
-  onDelete(client: Client): void {
-    let url = `${API_ENDPOINTS.DELETE_USER_DATA}?policy_number=${client.policy_number}`;
-    this.api.requestCall(url, ApiMethod.GET)
-      .subscribe({
-        next: () => {
-          this.getClients();
-          this.glbSrvc.showToastr("Record Deleted Successfully", 'success');
-        },
-        error: err => console.error(err)
-      });
-  }
+onDelete(client: Client): void {
+  const url = `${API_ENDPOINTS.DELETE_USER_DATA}?policy_number=${client.policy_number}`;
+
+  Swal.fire({
+    title: "Warning!",
+    text: "Are you sure you want to delete this record? All the related columns will be deleted.",
+    icon: "warning",
+    confirmButtonText: "Yes, Delete it!",
+    cancelButtonText: "No, Keep it!",
+    showCancelButton: true,
+    iconColor: '#fb8c00',
+    focusConfirm: false,
+    customClass: {
+      popup: 'bg-dark',
+      title: 'text-light',
+      confirmButton: 'bg-success border-0',
+      cancelButton: 'bg-danger ms-3',
+      htmlContainer: 'text-light'
+    }
+  }).then((result) => {
+    if (!result.isConfirmed) {
+      return;
+    }
+
+    this.api.requestCall(url, ApiMethod.GET).subscribe({
+      next: () => {
+        this.getClients();
+        this.glbSrvc.showToastr("Record Deleted Successfully", 'success');
+      },
+      error: (err) => {
+        console.error(err);
+        this.glbSrvc.showToastr("Failed to delete record. Please try again.", 'error');
+      }
+    });
+  });
+}
 
   onClientAdded(payload: any): void {
     this.api
@@ -211,5 +237,10 @@ export class ClientsComponent implements OnInit, OnDestroy {
     if (input.files?.length) this.selectedFile = input.files[0];
   }
 
-  downloadTemplate() {}
+downloadTemplate() {
+  const link = document.createElement('a');
+  link.href = 'assets/Template.xlsx';
+  link.download = 'Template.xlsx';  
+  link.click();
+}
 }
