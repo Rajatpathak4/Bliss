@@ -105,13 +105,19 @@ private normalizeFlow(res: any, email: string): AuthResponse {
   };
 }
 
-  signup(payload: SignupRequest): Observable<AuthResponse> {
-    return this.httpService.requestCall(API_ENDPOINTS.SIGNUP, ApiMethod.POST, payload)
-      .pipe(
-        map((res) => this.normalize(res, payload.email, payload.fullName)),
-        tap((res) => this.persistSession(res))
-      );
-  }
+signup(payload: SignupRequest): Observable<AuthResponse> {
+  const backendPayload = {
+    name: payload.fullName,
+    email: payload.email,
+    password: payload.password,
+  };
+
+  return this.httpService.requestCall(API_ENDPOINTS.SIGNUP, ApiMethod.POST, backendPayload)
+    .pipe(
+      map((res) => this.normalize(res, payload.email, payload.fullName)),
+      tap((res) => this.persistSession(res))
+    );
+}
 
   logout(user_id: number) {
     this.clearSession();
@@ -149,23 +155,23 @@ private normalizeFlow(res: any, email: string): AuthResponse {
     return raw ? (JSON.parse(raw) as AuthUser) : null;
   }
 
-  private normalize(res: any, email: string, fullName?: string): AuthResponse {
-    const data = res.value;
-    return {
-      token: data.token,
-      user: {
-        id: data.uid,
-        fullName: data.name,
-        email: data.email,
-        phone_number: '',
-        company: '',
-        role: 'User',
-        location: '',
-        avatarInitials: this.initials(data.name),
-        avatarUrl: null
-      }
-    };
-  }
+private normalize(res: any, email: string, fullName?: string): AuthResponse {
+  console.log('raw response in normalize:', res); 
+  return {
+    token: res.access_token,
+    user: {
+      id: res.user.id,
+      fullName: res.user.name,
+      email: res.user.email,
+      phone_number: '',
+      company: '',
+      role: 'User',
+      location: '',
+      avatarInitials: this.initials(res.user.name),
+      avatarUrl: null
+    }
+  };
+}
 
   private fallbackUser(email: string, fullName?: string): AuthUser {
     const name = fullName || email.split('@')[0];
