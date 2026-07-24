@@ -79,9 +79,6 @@ def user_modal_data(user_id:Optional[int], db:Session= Depends(get_db), serviceR
 def add_user_data(userData: UserExcelSchema, db:Session= Depends(get_db), serviceRequest: Request = None):
    try:
       response = crud.add_user_data(userData, db, serviceRequest)
-      print(userData)
-      print(userData.model_dump())
-      print(userData.agent_code)
       return response
    except Exception as err:
       customhelper.print_error_with_linenumebr(err)
