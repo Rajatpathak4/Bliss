@@ -13,7 +13,7 @@ from helper import customhelper
 from modules.Upload_Excel import crud
 from modules.Upload_Excel.schemas import UserExcelSchema
 import os
-
+import tempfile
 from modules.login.crud import get_user_profile, update_user_avatar, update_user_profile
 from modules.login.schemas import ProfileUpdateSchema 
 
@@ -24,10 +24,9 @@ routes = APIRouter(
 )
 configObj = get_setting()
 
-AVATAR_UPLOAD_DIR = "media/avatars"
-ALLOWED_IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp"}
 
-os.makedirs(AVATAR_UPLOAD_DIR, exist_ok=True)
+AVATAR_UPLOAD_DIR = os.path.join(tempfile.gettempdir(), "avatars")
+ALLOWED_IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp"}
 
 @routes.post('/upload_user_excel')
 def upload_user_excel(files: UploadFile = File(...), db:Session= Depends(get_db), serviceRequest: Request = None):
@@ -133,12 +132,14 @@ def update_profile(payload: ProfileUpdateSchema,request: Request,db: Session = D
 
 
 @routes.post("/upload-image")
-def upload_avatar(request: Request,file: UploadFile = File(...),db: Session = Depends(get_db)):
+def upload_avatar(request: Request, file: UploadFile = File(...), db: Session = Depends(get_db)):
     user_id = request.session["userData"]["id"]
 
     file_extension = os.path.splitext(file.filename)[1].lower()
     if file_extension not in ALLOWED_IMAGE_EXTENSIONS:
         return customhelper.printCustmMsg(200, "FALSE", "Unsupported image type")
+
+    os.makedirs(AVATAR_UPLOAD_DIR, exist_ok=True)   # ab function ke andar hai, crash nahi karega
 
     unique_filename = f"{uuid.uuid4().hex}{file_extension}"
     file_path = os.path.join(AVATAR_UPLOAD_DIR, unique_filename)
