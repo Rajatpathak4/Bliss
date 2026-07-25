@@ -100,9 +100,10 @@ def mark_all_notifications_read(db: Session = Depends(get_db), serviceRequest: R
         db.rollback()
         return customhelper.print_error_with_linenumebr(err)
 
-@routes('/create_fup_notifications')
+@routes.get('/create_fup_notification')
 def send_email_notification(db: Session = Depends(get_db)):
     try:
-        return create_fup_notifications(db)
+        response =  create_fup_notifications(db)
+        return response
     except Exception as err:
         return customhelper.print_error_with_linenumebr(err)
