@@ -35,7 +35,6 @@ export class DashboardComponent implements OnInit {
         this.loading = false;
       },
       error: (e) => {
-        console.log('dashboard error', e);
         this.loading = false;
       },
     });

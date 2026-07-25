@@ -23,7 +23,7 @@
     justify-content: center;
     box-shadow: 0 2px 8px rgba(37, 99, 235, 0.35);
   }
-  &__name { font-size: 18px; font-weight: 800; letter-spacing: -0.2px; }
+  &__name { font-size: 18px; font-weight: 800; letter-spacing: -0.2px; color: var(--nx-text); }
 }
 
 .auth-title {
@@ -31,6 +31,7 @@
   font-weight: 800;
   letter-spacing: -0.5px;
   margin: 0 0 6px;
+  color: var(--nx-text);
 }
 .auth-sub {
   color: var(--nx-muted);
@@ -41,6 +42,7 @@
 .auth-toggle {
   display: inline-flex;
   background: var(--nx-surface-2);
+  border: 1px solid var(--nx-border);
   border-radius: 10px;
   padding: 4px;
   margin-bottom: 28px;
@@ -96,4 +98,45 @@
   color: var(--nx-muted-2);
   margin: 26px 0 0;
   line-height: 1.5;
+}
+
+/* ---------- Dark theme: give the toggle track visible contrast ---------- */
+:host-context(body.dark) {
+  .auth-toggle {
+    background: #071a15;
+    border-color: var(--nx-border-strong);
+
+    &__btn--active {
+      background: var(--nx-surface-2);
+      box-shadow: 0 0 0 1px var(--nx-border-strong), var(--nx-shadow-sm);
+    }
+  }
+}
+
+.nx-input--with-toggle { padding-right: 40px; }
+
+.nx-input-toggle {
+  position: absolute;
+  right: 10px;
+  background: transparent;
+  border: none;
+  padding: 4px;
+  color: var(--nx-muted-2);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: color 0.15s, background 0.15s;
+
+  &:hover { color: var(--nx-text-2); background: var(--nx-surface-2); }
+}
+
+.auth-alert {
+  /* purana flat background/color hataa ke naye banner class ke saath compose karo */
+  font-size: 13px;
+  font-weight: 500;
+  padding: 10px 12px;
+  border-radius: 8px;
+  margin: 0 0 16px;
 }

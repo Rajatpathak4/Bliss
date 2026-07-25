@@ -1,6 +1,6 @@
 <!-- KPI cards -->
 <section class="stats">
-  <div class="stat-card nx-card" *ngFor="let s of stats">
+  <div class="stat-card nx-card" [ngClass]="'stat-card--' + s.accent" *ngFor="let s of stats">
     <div class="stat-card__top">
       <span class="stat-card__label">{{ s.label }}</span>
       <span class="stat-card__icon" [ngClass]="'stat-card__icon--' + s.accent">

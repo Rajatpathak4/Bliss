@@ -82,7 +82,7 @@
     right: 9px;
     width: 8px;
     height: 8px;
-    background: #ef4444;
+    background: var(--nx-red);
     border-radius: 50%;
     border: 2px solid var(--nx-surface);
   }
@@ -148,7 +148,7 @@
     padding: 13px 16px;
     border-bottom: 1px solid var(--nx-surface-2);
     position: relative;
-    &:hover { background: #fafbfd; }
+    &:hover { background: var(--nx-surface-hover); }
   }
   &__icon {
     width: 26px; height: 26px;

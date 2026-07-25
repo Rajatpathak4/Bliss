@@ -12,7 +12,7 @@ import { AuthService } from '../../../core/services/auth.service';
 export class LoginComponent {
   loading = false;
   errorMsg = '';
-
+showPassword = false;
   form = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required]],
@@ -46,7 +46,6 @@ export class LoginComponent {
     const returnUrl =
       this.route.snapshot.queryParamMap.get('returnUrl') || '/dashboard';
     this.router.navigateByUrl(returnUrl).then(result => {
-      console.log('Navigation result:', result);
     });
   }
 });

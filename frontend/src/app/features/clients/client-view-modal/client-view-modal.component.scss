@@ -64,3 +64,10 @@
   flex-shrink: 0;           // footer stays fixed at bottom too
   border-top: 1px solid var(--nx-surface-2);
 }
+
+.import-msg {
+  font-size: 13px;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 8px;
+}

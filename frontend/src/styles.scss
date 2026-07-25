@@ -13,6 +13,7 @@
   --nx-bg: #f7f8fa;
   --nx-surface: #ffffff;
   --nx-surface-2: #f1f5f9;
+  --nx-surface-hover: #fafbfd;
   --nx-input-bg: #f8fafc;
 
   /* Borders */
@@ -118,7 +119,7 @@ a:hover { text-decoration: underline; }
   color: var(--nx-muted);
   border-color: transparent;
 }
-.nx-btn--subtle:hover { background: #e6ebf1; }
+.nx-btn--subtle:hover { background: var(--nx-border-strong); }
 
 .nx-btn--block { width: 100%; }
 
@@ -271,18 +272,125 @@ a:hover { text-decoration: underline; }
 /* ---------- Scrollbar ---------- */
 ::-webkit-scrollbar { width: 10px; height: 10px; }
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: var(--nx-border-strong);
   border-radius: 8px;
   border: 2px solid transparent;
   background-clip: content-box;
 }
 ::-webkit-scrollbar-track { background: transparent; }
+
+/* ---------- Dark theme: deep forest / emerald gradient ---------- */
 body.dark {
-  --nx-bg: #0f172a;
-  --nx-surface: #1e293b;
-  --nx-surface-2: #334155;
-  --nx-text: #f1f5f9;
-  --nx-muted: #94a3b8;
-  --nx-border: #334155;
+  /* Accent — emerald green replacing blue */
+  --nx-primary: #07644a;
+  --nx-primary-600: #10b981;
+  --nx-primary-700: #34d399;
+  --nx-primary-soft: rgba(12, 168, 116, 0.16);
+
+  /* Surfaces — subtle forest gradients instead of flat fills */
+  --nx-bg: linear-gradient(160deg, #050f0d 0%, #0a1e19 50%, #0d2620 100%);
+  --nx-surface: linear-gradient(145deg, #11251f 0%, #0c1e18 100%);
+  --nx-surface-2: linear-gradient(145deg, #17352b 0%, #122b23 100%);
+  --nx-surface-hover: #1c3f33;
+  --nx-input-bg: #0e211b;
+
+  /* Borders (solid, since gradients don't read well on 1px lines) */
+  --nx-border: #1f3d33;
+  --nx-border-strong: #2d5647;
+
+  /* Text — mint-tinted for contrast on green background */
+  --nx-text: #eaf7f1;
+  --nx-text-2: #c1ddd0;
+  --nx-muted: #8bb3a1;
+  --nx-muted-2: #628c78;
+
+  /* Status colors, tuned for readability on dark green */
+  --nx-green: #34d399;
+  --nx-green-soft: rgba(52, 211, 153, 0.16);
+  --nx-amber: #fbbf24;
+  --nx-amber-soft: rgba(251, 191, 36, 0.16);
+  --nx-red: #f87171;
+  --nx-red-soft: rgba(248, 113, 113, 0.16);
+  --nx-purple: #b39dfa;
+  --nx-purple-soft: rgba(179, 157, 250, 0.16);
+
+  --nx-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --nx-shadow-card: 0 1px 3px rgba(0, 0, 0, 0.45), 0 1px 2px rgba(0, 0, 0, 0.3);
+  --nx-shadow-pop: 0 12px 32px rgba(0, 0, 0, 0.6);
+
+  background: var(--nx-bg);
+  background-attachment: fixed;
+  color-scheme: dark;
 }
 
+body.dark .nx-input::placeholder { color: var(--nx-muted-2); }
+
+body.dark .nx-select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238bb3a1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+}
+
+/* ---------- Status banners (gradient + subtle texture) ---------- */
+.nx-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background-blend-mode: overlay;
+  background-repeat: repeat;
+}
+
+.nx-banner--error {
+  color: var(--nx-red);
+  border-color: rgba(248, 113, 113, 0.35);
+  background-image:
+    repeating-linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.05) 0px,
+      rgba(255, 255, 255, 0.05) 2px,
+      transparent 2px,
+      transparent 6px
+    ),
+    linear-gradient(135deg, rgba(248, 113, 113, 0.22) 0%, rgba(52, 211, 153, 0.10) 100%);
+}
+
+.nx-banner--success {
+  color: var(--nx-green);
+  border-color: rgba(52, 211, 153, 0.35);
+  background-image:
+    repeating-linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.05) 0px,
+      rgba(255, 255, 255, 0.05) 2px,
+      transparent 2px,
+      transparent 6px
+    ),
+    linear-gradient(135deg, rgba(52, 211, 153, 0.24) 0%, rgba(16, 185, 129, 0.10) 100%);
+}
+
+/* Light mode: texture should be dark instead of white, and gradients less saturated */
+body:not(.dark) .nx-banner--error {
+  background-image:
+    repeating-linear-gradient(
+      135deg,
+      rgba(15, 23, 42, 0.03) 0px,
+      rgba(15, 23, 42, 0.03) 2px,
+      transparent 2px,
+      transparent 6px
+    ),
+    linear-gradient(135deg, rgba(220, 38, 38, 0.12) 0%, rgba(22, 163, 74, 0.05) 100%);
+}
+body:not(.dark) .nx-banner--success {
+  background-image:
+    repeating-linear-gradient(
+      135deg,
+      rgba(15, 23, 42, 0.03) 0px,
+      rgba(15, 23, 42, 0.03) 2px,
+      transparent 2px,
+      transparent 6px
+    ),
+    linear-gradient(135deg, rgba(22, 163, 74, 0.14) 0%, rgba(16, 185, 129, 0.06) 100%);
+}

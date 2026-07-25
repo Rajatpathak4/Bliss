@@ -12,7 +12,7 @@ import { AuthService } from '../../../core/services/auth.service';
 export class SignupComponent {
   loading = false;
   errorMsg = '';
-
+showPassword = false
   form = this.fb.group(
     {
       fullName: ['', [Validators.required, Validators.minLength(2)]],

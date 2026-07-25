@@ -8,50 +8,64 @@
   margin-bottom: 20px;
 }
 .stat-card {
-  padding: 20px;
-   transition: transform 0.2s ease, box-shadow 0.2s ease;
-
-  &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 24px rgba(16, 24, 40, 0.10);
-  }
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--nx-radius);
+  padding: 18px 20px;
+  color: #eaf7f1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 110px;
+  border: 1px solid transparent;
 
   &__top {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    margin-bottom: 14px;
-  }
-  &__label {
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: var(--nx-muted);
   }
   &__icon {
-    width: 36px; height: 36px;
-    border-radius: 10px;
-    display: inline-flex; align-items: center; justify-content: center;
-    &--blue { background: #e7efff; color: #2563eb; }
-    &--amber { background: #fef3c7; color: #d97706; }
-    &--green { background: #dcfce7; color: #16a34a; }
-    &--purple { background: #ede9fe; color: #7c3aed; }
-  }
-  &__value {
-    font-size: 28px;
-    font-weight: 800;
-    letter-spacing: -0.5px;
-    margin-bottom: 8px;
-  }
-  &__hint {
+    opacity: 0.95;
+    width: 34px; height: 34px;
+    border-radius: 9px;
     display: inline-flex;
     align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.12);
+  }
+  &__label { font-size: 13px; opacity: 0.8; }
+  &__value { font-size: 26px; font-weight: 800; }
+  &__hint {
+    display: flex;
+    align-items: center;
     gap: 5px;
-    font-size: 13px;
-    font-weight: 600;
-    &--up { color: var(--nx-green); }
-    &--flat { color: var(--nx-amber); }
+    font-size: 12px;
+    opacity: 0.75;
+
+    &--up { color: #bbf7d0; }
+    &--down { color: #fecaca; }
+  }
+
+  /* Accent-based diagonal gradients */
+  &--green {
+    background: linear-gradient(135deg, #10b981 0%, #0c1e18 65%);
+    border-color: rgba(16, 185, 129, 0.3);
+  }
+  &--blue {
+    background: linear-gradient(135deg, #2563eb 0%, #0c1e18 65%);
+    border-color: rgba(37, 99, 235, 0.3);
+  }
+  &--purple {
+    background: linear-gradient(135deg, #7c3aed 0%, #0c1e18 65%);
+    border-color: rgba(124, 58, 237, 0.3);
+  }
+  &--amber {
+    background: linear-gradient(135deg, #d97706 0%, #0c1e18 65%);
+    border-color: rgba(217, 119, 6, 0.3);
+  }
+  &--red {
+    background: linear-gradient(135deg, #ef4444 0%, #1a0f0f 65%);
+    border-color: rgba(239, 68, 68, 0.3);
   }
 }
 

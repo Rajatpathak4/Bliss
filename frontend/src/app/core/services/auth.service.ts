@@ -156,7 +156,6 @@ signup(payload: SignupRequest): Observable<AuthResponse> {
   }
 
 private normalize(res: any, email: string, fullName?: string): AuthResponse {
-  console.log('raw response in normalize:', res); 
   return {
     token: res.access_token,
     user: {
