@@ -18,7 +18,6 @@ from modules.login.crud import get_user_profile, update_user_avatar, update_user
 from modules.login.schemas import ProfileUpdateSchema 
 import cloudinary
 import cloudinary.uploader
-import cloudinary.api
 
 is_valid = [Depends(tokenvalidation),Depends(is_readable)]
 routes = APIRouter(
@@ -26,6 +25,7 @@ routes = APIRouter(
     dependencies=is_valid
 )
 configObj = get_setting()
+
 
 cloudinary.config(
     cloud_name=configObj.CLOUDINARY_CLOUD_NAME,
