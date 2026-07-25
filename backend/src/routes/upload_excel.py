@@ -25,8 +25,9 @@ routes = APIRouter(
 configObj = get_setting()
 
 
-AVATAR_UPLOAD_DIR = os.path.join(tempfile.gettempdir(), "avatars")
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ALLOWED_IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp"}
+AVATAR_UPLOAD_DIR = os.path.join(BASE_DIR, "media", "avatars")
 
 @routes.post('/upload_user_excel')
 def upload_user_excel(files: UploadFile = File(...), db:Session= Depends(get_db), serviceRequest: Request = None):
@@ -133,19 +134,25 @@ def update_profile(payload: ProfileUpdateSchema,request: Request,db: Session = D
 
 @routes.post("/upload-image")
 def upload_avatar(request: Request, file: UploadFile = File(...), db: Session = Depends(get_db)):
-    user_id = request.session["userData"]["id"]
+   user_id = request.session["userData"]["id"]
 
-    file_extension = os.path.splitext(file.filename)[1].lower()
-    if file_extension not in ALLOWED_IMAGE_EXTENSIONS:
-        return customhelper.printCustmMsg(200, "FALSE", "Unsupported image type")
+   file_extension = os.path.splitext(file.filename)[1].lower()
+   if file_extension not in ALLOWED_IMAGE_EXTENSIONS:
+      return customhelper.printCustmMsg(200, "FALSE", "Unsupported image type")
 
-    os.makedirs(AVATAR_UPLOAD_DIR, exist_ok=True)   # ab function ke andar hai, crash nahi karega
+   os.makedirs(AVATAR_UPLOAD_DIR, exist_ok=True)
 
-    unique_filename = f"{uuid.uuid4().hex}{file_extension}"
-    file_path = os.path.join(AVATAR_UPLOAD_DIR, unique_filename)
+   unique_filename = f"{uuid.uuid4().hex}{file_extension}"
+   file_path = os.path.join(AVATAR_UPLOAD_DIR, unique_filename)
+   print("AVATAR_UPLOAD_DIR resolved to:", os.path.abspath(AVATAR_UPLOAD_DIR))
+   try:
+      with open(file_path, "wb") as destination_file:
+         shutil.copyfileobj(file.file, destination_file)
+   except Exception as e:
+      return customhelper.printCustmMsg(200, "FALSE", f"File save failed: {str(e)}")
 
-    with open(file_path, "wb") as destination_file:
-        shutil.copyfileobj(file.file, destination_file)
+   if not os.path.exists(file_path):
+      return customhelper.printCustmMsg(200, "FALSE", "File was not saved to disk")
 
-    avatar_url = f"/media/avatars/{unique_filename}"
-    return update_user_avatar(db, user_id, avatar_url)
+   avatar_url = f"/media/avatars/{unique_filename}"
+   return update_user_avatar(db, user_id, avatar_url)

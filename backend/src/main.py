@@ -18,6 +18,7 @@ import modules.login.models as models
 from modules.alerts.crud import create_fup_notifications
 
 from routes import alerts, upload_excel, users, dashboard
+from fastapi.staticfiles import StaticFiles
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -68,6 +69,9 @@ app.include_router(upload_excel.routes)
 app.include_router(alerts.routes)
 
 # ------------------ Root ------------------
+BASE_DIR = os.path.dirname(os.path.abspath(__file__)) 
+app.mount("/media", StaticFiles(directory=os.path.join(BASE_DIR, "media")), name="media")
+
 
 @app.get("/")
 def root():
