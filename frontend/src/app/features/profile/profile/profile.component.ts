@@ -5,6 +5,7 @@ import { ApiService } from '../../../core/services/api.service';
 import { API_ENDPOINTS, ApiMethod } from '../../../core/constants/api-endpoints.constant';
 import { AuthUser } from '../../../core/models/user.model';
 import { GlobalServiceService } from '../../../core/services/global-service.service';
+import { environment } from '../../../../environments/environment'; // path apna actual daal dena
 
 @Component({
   selector: 'app-profile',
@@ -35,18 +36,23 @@ export class ProfileComponent implements OnInit {
     return this.form.controls;
   }
 
-loadProfile(): void {
-  this.api.requestCall(API_ENDPOINTS.GET_PROFILE, ApiMethod.GET).subscribe({
-    next: (res) => {
-      this.user = res?.value ?? res;   // 'data' ko 'value' se badla
-      this.buildForm();
-    },
-    error: (err) => {
-      console.error(err);
-      this.glbSrvc.showToastr('Failed to load profile', 'error');
-    },
-  });
-}
+  get avatarFullUrl(): string | null {
+    if (!this.user?.avatarUrl) return null;
+    return `${environment.apiBaseUrl}${this.user.avatarUrl}`;
+  }
+
+  loadProfile(): void {
+    this.api.requestCall(API_ENDPOINTS.GET_PROFILE, ApiMethod.GET).subscribe({
+      next: (res) => {
+        this.user = res?.value ?? res;
+        this.buildForm();
+      },
+      error: (err) => {
+        console.error(err);
+        this.glbSrvc.showToastr('Failed to load profile', 'error');
+      },
+    });
+  }
 
   private buildForm(): void {
     this.form = this.fb.group({

@@ -9,41 +9,127 @@
       <div class="nx-field">
         <label class="nx-label">Full Name</label>
         <div class="nx-input-wrap">
-          <span class="nx-input-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span>
-          <input class="nx-input" formControlName="policy_holder" placeholder=""
-                 [class.is-invalid]="f.policy_holder.touched && f.policy_holder.invalid" />
+          <span class="nx-input-icon"
+            ><svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle></svg
+          ></span>
+          <input
+            class="nx-input"
+            formControlName="policy_holder"
+            placeholder="Full Name"
+            [class.is-invalid]="
+              f.policy_holder.touched && f.policy_holder.invalid
+            "
+          />
         </div>
       </div>
 
       <div class="nx-field">
         <label class="nx-label">Email Address</label>
         <div class="nx-input-wrap">
-          <span class="nx-input-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><polyline points="22,6 12,13 2,6"></polyline></svg></span>
-          <input class="nx-input" formControlName="email" placeholder="Name"
-                 [class.is-invalid]="f.email.touched && f.email.invalid" />
+          <span class="nx-input-icon"
+            ><svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+              <polyline points="22,6 12,13 2,6"></polyline></svg
+          ></span>
+          <input
+            class="nx-input"
+            formControlName="email"
+            placeholder="Email"
+            [class.is-invalid]="f.email.touched && f.email.invalid"
+          />
         </div>
       </div>
 
       <div class="nx-field">
         <label class="nx-label">Phone Number</label>
         <div class="nx-input-wrap">
-          <span class="nx-input-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg></span>
-          <input class="nx-input" formControlName="phone_number"  />
+          <span class="nx-input-icon"
+            ><svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+              ></path></svg
+          ></span>
+          <input
+            class="nx-input"
+            formControlName="phone_number"
+            placeholder="Phone Number"
+          />
         </div>
       </div>
 
       <div class="nx-field">
         <label class="nx-label">Address</label>
         <div class="nx-input-wrap">
-          <span class="nx-input-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg></span>
-          <input class="nx-input" formControlName="address" placeholder="Address" />
+          <span class="nx-input-icon"
+            ><svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle></svg
+          ></span>
+          <input
+            class="nx-input"
+            formControlName="address"
+            placeholder="Address"
+          />
         </div>
       </div>
 
       <div class="nx-field">
         <label class="nx-label">From Date</label>
         <div class="nx-input-wrap">
-          <span class="nx-input-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
+          <span class="nx-input-icon"
+            ><svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line></svg
+          ></span>
           <input class="nx-input" type="date" formControlName="from_date" />
         </div>
       </div>
@@ -51,7 +137,22 @@
       <div class="nx-field">
         <label class="nx-label">To Date</label>
         <div class="nx-input-wrap">
-          <span class="nx-input-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
+          <span class="nx-input-icon"
+            ><svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line></svg
+          ></span>
           <input class="nx-input" type="date" formControlName="to_date" />
         </div>
       </div>
@@ -59,24 +160,77 @@
       <div class="nx-field">
         <label class="nx-label">Agent Code</label>
         <div class="nx-input-wrap">
-          <span class="nx-input-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41 11 4H4v7l9.59 9.59a2 2 0 0 0 2.82 0l4.18-4.18a2 2 0 0 0 0-2.82z"></path><circle cx="7.5" cy="7.5" r="1.5"></circle></svg></span>
-          <input class="nx-input" formControlName="agent_code" placeholder=""
-                 [class.is-invalid]="f.agent_code.touched && f.agent_code.invalid" />
+          <span class="nx-input-icon"
+            ><svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M20.59 13.41 11 4H4v7l9.59 9.59a2 2 0 0 0 2.82 0l4.18-4.18a2 2 0 0 0 0-2.82z"
+              ></path>
+              <circle cx="7.5" cy="7.5" r="1.5"></circle></svg
+          ></span>
+          <input
+            class="nx-input"
+            formControlName="agent_code"
+            placeholder=""
+            [class.is-invalid]="f.agent_code.touched && f.agent_code.invalid"
+          />
         </div>
       </div>
 
       <div class="nx-field">
         <label class="nx-label">Commencement Date</label>
         <div class="nx-input-wrap">
-          <span class="nx-input-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
-          <input class="nx-input" type="date" formControlName="commecement_date" />
+          <span class="nx-input-icon"
+            ><svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line></svg
+          ></span>
+          <input
+            class="nx-input"
+            type="date"
+            formControlName="commecement_date"
+          />
         </div>
       </div>
 
       <div class="nx-field">
         <label class="nx-label">DOB</label>
         <div class="nx-input-wrap">
-          <span class="nx-input-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
+          <span class="nx-input-icon"
+            ><svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line></svg
+          ></span>
           <input class="nx-input" type="date" formControlName="dob" />
         </div>
       </div>
@@ -84,88 +238,300 @@
       <div class="nx-field">
         <label class="nx-label">Family Code</label>
         <div class="nx-input-wrap">
-          <span class="nx-input-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41 11 4H4v7l9.59 9.59a2 2 0 0 0 2.82 0l4.18-4.18a2 2 0 0 0 0-2.82z"></path><circle cx="7.5" cy="7.5" r="1.5"></circle></svg></span>
-          <input class="nx-input" formControlName="family_code" placeholder=""
-                 [class.is-invalid]="f.family_code.touched && f.family_code.invalid" />
+          <span class="nx-input-icon"
+            ><svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M20.59 13.41 11 4H4v7l9.59 9.59a2 2 0 0 0 2.82 0l4.18-4.18a2 2 0 0 0 0-2.82z"
+              ></path>
+              <circle cx="7.5" cy="7.5" r="1.5"></circle></svg
+          ></span>
+          <input
+            class="nx-input"
+            formControlName="family_code"
+            placeholder=""
+            [class.is-invalid]="f.family_code.touched && f.family_code.invalid"
+          />
         </div>
       </div>
 
       <div class="nx-field">
         <label class="nx-label">Policy Number</label>
         <div class="nx-input-wrap">
-          <span class="nx-input-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="8" y1="13" x2="16" y2="13"></line><line x1="8" y1="17" x2="13" y2="17"></line></svg></span>
-          <input class="nx-input" formControlName="policy_number" placeholder=""
-                 [class.is-invalid]="f.policy_number.touched && f.policy_number.invalid" />
+          <span class="nx-input-icon"
+            ><svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+              ></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="8" y1="13" x2="16" y2="13"></line>
+              <line x1="8" y1="17" x2="13" y2="17"></line></svg
+          ></span>
+          <input
+            class="nx-input"
+            formControlName="policy_number"
+            placeholder=""
+            [class.is-invalid]="
+              f.policy_number.touched && f.policy_number.invalid
+            "
+          />
         </div>
       </div>
 
       <div class="nx-field">
         <label class="nx-label">Agency Code</label>
         <div class="nx-input-wrap">
-          <span class="nx-input-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"></path><path d="M5 21V7l7-4 7 4v14"></path><path d="M9 21v-6h6v6"></path><line x1="9" y1="10" x2="9" y2="10.01"></line><line x1="15" y1="10" x2="15" y2="10.01"></line></svg></span>
-          <input class="nx-input" formControlName="agency_code" placeholder=""
-                 [class.is-invalid]="f.agency_code.touched && f.agency_code.invalid" />
+          <span class="nx-input-icon"
+            ><svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M3 21h18"></path>
+              <path d="M5 21V7l7-4 7 4v14"></path>
+              <path d="M9 21v-6h6v6"></path>
+              <line x1="9" y1="10" x2="9" y2="10.01"></line>
+              <line x1="15" y1="10" x2="15" y2="10.01"></line></svg
+          ></span>
+          <input
+            class="nx-input"
+            formControlName="agency_code"
+            placeholder=""
+            [class.is-invalid]="f.agency_code.touched && f.agency_code.invalid"
+          />
         </div>
       </div>
 
       <div class="nx-field">
         <label class="nx-label">Mode</label>
         <div class="nx-input-wrap">
-          <span class="nx-input-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg></span>
-          <input class="nx-input" formControlName="mode" placeholder=""
-                 [class.is-invalid]="f.mode.touched && f.mode.invalid" />
+          <span class="nx-input-icon"
+            ><svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="17 1 21 5 17 9"></polyline>
+              <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+              <polyline points="7 23 3 19 7 15"></polyline>
+              <path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg
+          ></span>
+          <input
+            class="nx-input"
+            formControlName="mode"
+            placeholder=""
+            [class.is-invalid]="f.mode.touched && f.mode.invalid"
+          />
         </div>
       </div>
 
       <div class="nx-field">
         <label class="nx-label">Plan</label>
         <div class="nx-input-wrap">
-          <span class="nx-input-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg></span>
-          <input class="nx-input" formControlName="plan" placeholder=""
-                 [class.is-invalid]="f.plan.touched && f.plan.invalid" />
+          <span class="nx-input-icon"
+            ><svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+              <polyline points="2 17 12 22 22 17"></polyline>
+              <polyline points="2 12 12 17 22 12"></polyline></svg
+          ></span>
+          <input
+            class="nx-input"
+            formControlName="plan"
+            placeholder=""
+            (focus)="
+              form.get('plan')?.value === 0 && form.get('plan')?.setValue(null)
+            "
+            (blur)="!form.get('plan')?.value && form.get('plan')?.setValue(0)"
+            [class.is-invalid]="f.plan.touched && f.plan.invalid"
+          />
         </div>
       </div>
 
       <div class="nx-field">
         <label class="nx-label">Term</label>
         <div class="nx-input-wrap">
-          <span class="nx-input-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg></span>
-          <input class="nx-input" formControlName="term" placeholder=""
-                 [class.is-invalid]="f.term.touched && f.term.invalid" />
+          <span class="nx-input-icon"
+            ><svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="10"></circle>
+              <path d="M12 6v6l4 2"></path></svg
+          ></span>
+          <input
+            class="nx-input"
+            formControlName="term"
+            placeholder=""
+            (focus)="
+              form.get('term')?.value === 0 && form.get('term')?.setValue(null)
+            "
+            (blur)="!form.get('term')?.value && form.get('term')?.setValue(0)"
+            [class.is-invalid]="f.term.touched && f.term.invalid"
+          />
         </div>
       </div>
 
       <div class="nx-field">
         <label class="nx-label">PPT</label>
         <div class="nx-input-wrap">
-          <span class="nx-input-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"></path><path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path><path d="M3 22v-6h6"></path><path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path></svg></span>
-          <input class="nx-input" formControlName="ppt" placeholder=""
-                 [class.is-invalid]="f.ppt.touched && f.ppt.invalid" />
+          <span class="nx-input-icon"
+            ><svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M21 2v6h-6"></path>
+              <path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path>
+              <path d="M3 22v-6h6"></path>
+              <path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path></svg
+          ></span>
+          <input
+            class="nx-input"
+            formControlName="ppt"
+            placeholder=""
+            (focus)="
+              form.get('ppt')?.value === 0 && form.get('ppt')?.setValue(null)
+            "
+            (blur)="!form.get('ppt')?.value && form.get('ppt')?.setValue(0)"
+            [class.is-invalid]="f.ppt.touched && f.ppt.invalid"
+          />
         </div>
       </div>
 
       <div class="nx-field">
         <label class="nx-label">Sum Assured</label>
         <div class="nx-input-wrap">
-          <span class="nx-input-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></span>
-          <input class="nx-input" formControlName="sum_assured" placeholder=""
-                 [class.is-invalid]="f.sum_assured.touched && f.sum_assured.invalid" />
+          <span class="nx-input-icon"
+            ><svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg
+          ></span>
+          <input
+            class="nx-input"
+            formControlName="sum_assured"
+            placeholder=""
+            (focus)="
+              form.get('sum_assured')?.value === 0 &&
+                form.get('sum_assured')?.setValue(null)
+            "
+            (blur)="
+              !form.get('sum_assured')?.value &&
+                form.get('sum_assured')?.setValue(0)
+            "
+            [class.is-invalid]="f.sum_assured.touched && f.sum_assured.invalid"
+          />
         </div>
       </div>
 
       <div class="nx-field">
         <label class="nx-label">Premium</label>
         <div class="nx-input-wrap">
-          <span class="nx-input-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12"></path><path d="M6 8h12"></path><path d="M6 13h3c4.5 0 4.5 6.5 0 6.5H8"></path><path d="M8 8a3.5 3.5 0 0 1 0 5h-2l7 7"></path></svg></span>
-          <input class="nx-input" formControlName="premium" placeholder=""
-                 [class.is-invalid]="f.premium.touched && f.premium.invalid" />
+          <span class="nx-input-icon"
+            ><svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M6 3h12"></path>
+              <path d="M6 8h12"></path>
+              <path d="M6 13h3c4.5 0 4.5 6.5 0 6.5H8"></path>
+              <path d="M8 8a3.5 3.5 0 0 1 0 5h-2l7 7"></path></svg
+          ></span>
+          <input
+            class="nx-input"
+            formControlName="premium"
+            placeholder=""
+            (focus)="
+              form.get('premium')?.value === 0 &&
+                form.get('premium')?.setValue(null)
+            "
+            (blur)="
+              !form.get('premium')?.value && form.get('premium')?.setValue(0)
+            "
+            [class.is-invalid]="f.premium.touched && f.premium.invalid"
+          />
         </div>
       </div>
 
       <div class="nx-field">
         <label class="nx-label">FUP Date</label>
         <div class="nx-input-wrap">
-          <span class="nx-input-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
+          <span class="nx-input-icon"
+            ><svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line></svg
+          ></span>
           <input class="nx-input" type="date" formControlName="fup_date" />
         </div>
       </div>
@@ -173,20 +539,51 @@
       <div class="nx-field">
         <label class="nx-label">Nominee</label>
         <div class="nx-input-wrap">
-          <span class="nx-input-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 11l-3 3-1.5-1.5"></path></svg></span>
-          <input class="nx-input" formControlName="nominee" placeholder=""
-                 [class.is-invalid]="f.nominee.touched && f.nominee.invalid" />
+          <span class="nx-input-icon"
+            ><svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M22 11l-3 3-1.5-1.5"></path></svg
+          ></span>
+          <input
+            class="nx-input"
+            formControlName="nominee"
+            placeholder="Nominee Name"
+            [class.is-invalid]="f.nominee.touched && f.nominee.invalid"
+          />
         </div>
       </div>
-
     </div>
 
     <div class="form-card__foot">
-      <button type="submit" class="nx-btn nx-btn--primary" >
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+      <button type="submit" class="nx-btn nx-btn--primary">
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.9"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
         Add Client
       </button>
-      <button type="button" class="nx-btn nx-btn--subtle" (click)="reset()">Reset</button>
+      <button type="button" class="nx-btn nx-btn--subtle" (click)="reset()">
+        Reset
+      </button>
     </div>
   </form>
 </div>

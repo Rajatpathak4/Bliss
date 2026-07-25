@@ -13,6 +13,7 @@ import {
 import { ApiService } from "../../core/services/api.service";
 import { GlobalServiceService } from "../../core/services/global-service.service";
 import { ThemeService } from "../../core/services/theme.service";
+import { environment } from "../../../environments/environment"; // path apna actual daal dena
 
 @Component({
   selector: "app-navbar",
@@ -40,24 +41,37 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = this.auth.getUser();
+    this.loadFreshProfile();
+
     this.notifications$ = this.notificationService.notifications$;
-    // Keep the unread badge in sync as alerts load / are marked read.
     this.notifications$.subscribe(
       (list) => (this.unreadCount = list.filter((n) => n.unread).length),
     );
     this.notificationService.loadAlerts();
-    this.user = this.auth.getUser();
-    this.notifications$ = this.notificationService.notifications$;
-    this.notifications$.subscribe(
-      (list) => (this.unreadCount = list.filter((n) => n.unread).length),
-    );
 
     // poll every 30s
     timer(0, 500000).subscribe(() => this.notificationService.loadAlerts());
   }
 
+  private loadFreshProfile(): void {
+    this.httpService.requestCall(API_ENDPOINTS.GET_PROFILE, ApiMethod.GET).subscribe({
+      next: (res) => {
+        const fresh = res?.value ?? res;
+        if (fresh) this.user = fresh;
+      },
+      error: () => {
+        // fail silently — stale cached user still shows initials as fallback
+      },
+    });
+  }
+
   get initials(): string {
     return this.user?.avatarInitials ?? "NA";
+  }
+
+  get avatarFullUrl(): string | null {
+    if (!this.user?.avatarUrl) return null;
+    return `${environment.apiBaseUrl}${this.user.avatarUrl}`;
   }
 
   get shortName(): string {
@@ -100,7 +114,7 @@ export class NavbarComponent implements OnInit {
   logout(id?: number): void {
     if (id == null) {
       console.error("logout() called without a valid user_id:", id);
-      return; // or fall back to clearing session locally without hitting the API
+      return;
     }
     const url = `${API_ENDPOINTS.LOGOUT}?user_id=${id}`;
     this.httpService.requestCall(url, ApiMethod.GET).subscribe((data) => {
@@ -111,7 +125,6 @@ export class NavbarComponent implements OnInit {
     });
   }
 
-  /** Close open dropdowns when clicking anywhere outside the navbar. */
   @HostListener("document:click", ["$event"])
   onDocumentClick(event: MouseEvent): void {
     if (!this.host.nativeElement.contains(event.target as Node)) {

@@ -8,4 +8,9 @@ import { Component } from '@angular/core';
 export class AuthLayoutComponent {
   /** Heights (%) for the decorative bar chart on the left panel. */
   bars: number[] = [30, 45, 62, 88, 100, 82, 70, 58, 48, 40, 34, 28, 24, 20, 16, 12];
+  particles = Array.from({ length: 14 }, () => ({
+  x: Math.random() * 100,
+  delay: Math.random() * 8,
+  duration: 10 + Math.random() * 8,
+}));
 }

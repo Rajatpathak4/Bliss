@@ -1,44 +1,110 @@
 <div class="auth">
-  <!-- Left: decorative analytics panel (recreation of the reference art) -->
   <aside class="auth__art">
     <div class="art-overlay"></div>
+
+    <!-- Ambient floating particles for depth -->
+    <div class="particles">
+      <span *ngFor="let p of particles" [style.left.%]="p.x" [style.animation-delay.s]="p.delay" [style.animation-duration.s]="p.duration"></span>
+    </div>
+
     <div class="art-inner">
-      <div class="art-block">
-        <span class="art-caption">DAYS USING MEDIAN ▾</span>
-        <div class="art-line-chart">
-          <svg viewBox="0 0 320 120" preserveAspectRatio="none">
-            <polyline points="0,90 40,80 80,84 120,60 160,64 200,48 240,52 280,40 320,42"
-                      fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="2" />
+
+      <!-- Brand lockup -->
+      <div class="brand-row">
+        <span class="brand-row__logo">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2l8 4v6c0 5-3.4 8.7-8 10-4.6-1.3-8-5-8-10V6l8-4z"></path>
+          </svg>
+        </span>
+        <span class="brand-row__name">LIC Tracker</span>
+      </div>
+
+      <!-- Shield hero -->
+      <div class="shield-block">
+        <div class="shield-pulse shield-pulse--1"></div>
+        <div class="shield-pulse shield-pulse--2"></div>
+        <div class="shield-icon">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2l8 4v6c0 5-3.4 8.7-8 10-4.6-1.3-8-5-8-10V6l8-4z"></path>
+            <polyline points="9 12 11 14 15 9"></polyline>
           </svg>
         </div>
+        <p class="shield-caption">Protecting <b>2,400+</b> policies</p>
       </div>
 
-      <div class="art-block">
-        <span class="art-caption">START RENDER VS BOUNCE RATE</span>
-        <div class="art-bars">
-          <span *ngFor="let h of bars" [style.height.%]="h"></span>
+      <!-- Animated area chart: premium trend -->
+<div class="chart-block">
+  <div class="chart-block__head">
+    <span class="art-caption">PREMIUM COLLECTION TREND</span>
+    <span class="chart-block__delta">▲ 12.4%</span>
+  </div>
+  <svg viewBox="0 0 300 90" preserveAspectRatio="none" class="trend-chart">
+    <defs>
+      <linearGradient id="trendFill" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#34d399" stop-opacity="0.45" />
+        <stop offset="100%" stop-color="#34d399" stop-opacity="0" />
+      </linearGradient>
+    </defs>
+    <path class="trend-area"
+          d="M0,70 L30,62 L60,66 L90,50 L120,54 L150,36 L180,42 L210,26 L240,30 L270,14 L300,18 L300,90 L0,90 Z"
+          fill="url(#trendFill)" />
+    <polyline class="trend-line"
+              points="0,70 30,62 60,66 90,50 120,54 150,36 180,42 210,26 240,30 270,14 300,18"
+              fill="none" stroke="#34d399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+  </svg>
+</div>
+
+      <!-- Ring chart with side stats -->
+      <div class="metrics-row">
+        <div class="ring-block">
+          <svg viewBox="0 0 120 120" class="ring-chart">
+            <circle cx="60" cy="60" r="50" class="ring-track"></circle>
+            <circle cx="60" cy="60" r="50" class="ring-progress"></circle>
+          </svg>
+          <div class="ring-label">
+            <b>96%</b>
+            <small>On-time Renewals</small>
+          </div>
+        </div>
+
+        <div class="mini-stats">
+          <div class="mini-stat">
+            <span class="mini-stat__bar" style="--h: 62%"></span>
+            <b>₹8.4L</b>
+            <small>Premiums Collected</small>
+          </div>
+          <div class="mini-stat">
+            <span class="mini-stat__bar" style="--h: 84%"></span>
+            <b>312</b>
+            <small>Active Clients</small>
+          </div>
+          <div class="mini-stat">
+            <span class="mini-stat__bar" style="--h: 40%"></span>
+            <b>18</b>
+            <small>Due This Week</small>
+          </div>
         </div>
       </div>
 
-      <div class="art-stats">
-        <div class="art-stat"><b>2.7M</b><small>Page Views</small></div>
-        <div class="art-stat"><b>40.6%</b><small>Bounce Rate</small></div>
-        <div class="art-stat"><b>479K</b><small>Sessions</small></div>
-        <div class="art-stat"><b>17min</b><small>Session Length</small></div>
+      <!-- Floating activity cards -->
+      <div class="float-cards">
+        <div class="float-card float-card--1">
+          <span class="float-card__dot"></span> Policy #56231 renewed
+        </div>
+        <div class="float-card float-card--2">
+          <span class="float-card__dot"></span> New client onboarded
+        </div>
+        <div class="float-card float-card--3">
+          <span class="float-card__dot"></span> Premium payment received
+        </div>
       </div>
 
-      <div class="art-wave">
-        <svg viewBox="0 0 400 120" preserveAspectRatio="none">
-          <path d="M0,80 C60,40 120,110 200,70 C280,30 340,90 400,60"
-                fill="none" stroke="rgba(96,165,250,0.6)" stroke-width="2.5" />
-          <path d="M0,95 C70,70 130,120 210,90 C300,55 360,100 400,85"
-                fill="none" stroke="rgba(167,139,250,0.5)" stroke-width="2.5" />
-        </svg>
-      </div>
+      <!-- Bottom tagline -->
+      <p class="art-tagline">Track every policy, renewal, and payment — all in one place.</p>
+
     </div>
   </aside>
 
-  <!-- Right: form outlet (login / signup) -->
   <section class="auth__panel">
     <div class="auth__panel-inner">
       <router-outlet></router-outlet>

@@ -194,3 +194,7 @@
   }
   &__divider { height: 1px; background: var(--nx-border); margin: 6px 4px; }
 }
+
+.profile-btn__avatar--img {
+  object-fit: cover;
+}
