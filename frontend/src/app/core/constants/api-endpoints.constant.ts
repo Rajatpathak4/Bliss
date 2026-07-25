@@ -38,6 +38,9 @@ export const API_ENDPOINTS = {
   UPLOAD_PROFILE_IMAGE: '/upload-image',
   GET_FAMILY: '/family_code',
 
+  GET_COMMISSION_SUMMARY: '/commission/summary',
+  UPDATE_COMMISSION_RATE: '/commission/rate',
+  UPDATE_COMMISSION_STATUS: '/commission/status',
 
 
 
