@@ -1,10 +1,3 @@
-/**
- * ============================================================
- *  API ENDPOINTS — every backend path in one place.
- *  Full URL = environment.apiBaseUrl + <path>.
- * ============================================================
- */
-
 export enum ApiMethod {
   GET = "GET",
   POST = "POST",
@@ -43,7 +36,12 @@ export const API_ENDPOINTS = {
   GET_PROFILE: '/me',
   UPDATE_PROFILE: '/update',
   UPLOAD_PROFILE_IMAGE: '/upload-image',
-  
+  GET_FAMILY: '/family_code',
+
+
+
+
+
 } as const;
 
 export type ApiEndpoint = (typeof API_ENDPOINTS)[keyof typeof API_ENDPOINTS];

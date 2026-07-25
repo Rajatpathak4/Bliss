@@ -1,0 +1,41 @@
+<div class="nx-overlay" (click)="close.emit()">
+  <div class="nx-modal family-modal" (click)="$event.stopPropagation()">
+    <div class="family-modal__head">
+      <div class="family-modal__title-wrap">
+        <span class="nx-avatar">{{ initials(family?.members?.[0]?.policy_holder) }}</span>
+        <div>
+          <h3>Family {{ family?.family_code }}</h3>
+          <p class="family-modal__sub">{{ family?.member_count }} members</p>
+        </div>
+      </div>
+      <button class="edit-modal__close" (click)="close.emit()" aria-label="Close">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div>
+
+    <div class="family-modal__stats">
+      <div class="nx-card family-modal__stat">
+        <p class="family-modal__stat-label">Total Sum Assured</p>
+        <p class="family-modal__stat-value">{{ family?.total_sum_assured | currency:'INR':'symbol':'1.0-0' }}</p>
+      </div>
+      <div class="nx-card family-modal__stat">
+        <p class="family-modal__stat-label">Total Premium</p>
+        <p class="family-modal__stat-value">{{ family?.total_premium | currency:'INR':'symbol':'1.0-0' }}</p>
+      </div>
+    </div>
+
+    <div class="family-modal__list">
+      <div class="family-modal__row" *ngFor="let m of family?.members">
+        <div>
+          <p class="family-modal__row-name">{{ m.policy_holder }}</p>
+          <p class="family-modal__row-sub mono">Policy {{ m.policy_number }}</p>
+        </div>
+        <p class="family-modal__row-amount">{{ m.sum_assured | currency:'INR':'symbol':'1.0-0' }}</p>
+      </div>
+
+      <div class="family-modal__row" *ngIf="!family?.members?.length">
+        <p class="family-modal__empty">No other family members found.</p>
+      </div>
+    </div>
+  </div>
+</div>

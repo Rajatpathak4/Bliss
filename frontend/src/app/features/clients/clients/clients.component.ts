@@ -22,6 +22,7 @@ export class ClientsComponent implements OnInit, OnDestroy {
   clientRecord = 0;
   viewClient: Client | null = null;
   editClient: Client | null = null;
+  familyData: any = null;
   searchTerm = '';
   searchInput = '';
   loading = true;
@@ -106,42 +107,59 @@ export class ClientsComponent implements OnInit, OnDestroy {
       });
   }
 
-onDelete(client: Client): void {
-  const url = `${API_ENDPOINTS.DELETE_USER_DATA}?policy_number=${client.policy_number}`;
-
-  Swal.fire({
-    title: "Warning!",
-    text: "Are you sure you want to delete this record? All the related columns will be deleted.",
-    icon: "warning",
-    confirmButtonText: "Yes, Delete it!",
-    cancelButtonText: "No, Keep it!",
-    showCancelButton: true,
-    iconColor: '#fb8c00',
-    focusConfirm: false,
-    customClass: {
-      popup: 'bg-dark',
-      title: 'text-light',
-      confirmButton: 'bg-success border-0',
-      cancelButton: 'bg-danger ms-3',
-      htmlContainer: 'text-light'
+openFamily(client: any): void {
+  if (!client.policy_holder) {
+    this.glbSrvc.showToastr('No policy holder name found for this client', 'error');
+    return;
+  }
+  const url = `${API_ENDPOINTS.GET_FAMILY}?policy_holder=${encodeURIComponent(client.policy_holder)}`;
+  this.api.requestCall(url, ApiMethod.GET).subscribe({
+    next: (res: any) => {
+      this.familyData = res.value;
+    },
+    error: (err) => {
+      console.error(err);
+      this.glbSrvc.showToastr('Failed to load family details', 'error');
     }
-  }).then((result) => {
-    if (!result.isConfirmed) {
-      return;
-    }
-
-    this.api.requestCall(url, ApiMethod.GET).subscribe({
-      next: () => {
-        this.getClients();
-        this.glbSrvc.showToastr("Record Deleted Successfully", 'success');
-      },
-      error: (err) => {
-        console.error(err);
-        this.glbSrvc.showToastr("Failed to delete record. Please try again.", 'error');
-      }
-    });
   });
 }
+
+  onDelete(client: Client): void {
+    const url = `${API_ENDPOINTS.DELETE_USER_DATA}?policy_number=${client.policy_number}`;
+
+    Swal.fire({
+      title: "Warning!",
+      text: "Are you sure you want to delete this record? All the related columns will be deleted.",
+      icon: "warning",
+      confirmButtonText: "Yes, Delete it!",
+      cancelButtonText: "No, Keep it!",
+      showCancelButton: true,
+      iconColor: '#fb8c00',
+      focusConfirm: false,
+      customClass: {
+        popup: 'bg-dark',
+        title: 'text-light',
+        confirmButton: 'bg-success border-0',
+        cancelButton: 'bg-danger ms-3',
+        htmlContainer: 'text-light'
+      }
+    }).then((result) => {
+      if (!result.isConfirmed) {
+        return;
+      }
+
+      this.api.requestCall(url, ApiMethod.GET).subscribe({
+        next: () => {
+          this.getClients();
+          this.glbSrvc.showToastr("Record Deleted Successfully", 'success');
+        },
+        error: (err) => {
+          console.error(err);
+          this.glbSrvc.showToastr("Failed to delete record. Please try again.", 'error');
+        }
+      });
+    });
+  }
 
   onClientAdded(payload: any): void {
     this.api
@@ -237,10 +255,10 @@ onDelete(client: Client): void {
     if (input.files?.length) this.selectedFile = input.files[0];
   }
 
-downloadTemplate() {
-  const link = document.createElement('a');
-  link.href = 'assets/Template.xlsx';
-  link.download = 'Template.xlsx';  
-  link.click();
-}
+  downloadTemplate() {
+    const link = document.createElement('a');
+    link.href = 'assets/Template.xlsx';
+    link.download = 'Template.xlsx';
+    link.click();
+  }
 }

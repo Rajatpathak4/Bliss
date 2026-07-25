@@ -7,6 +7,7 @@ import { ClientFormComponent } from './client-form/client-form.component';
 import { ClientViewModalComponent } from './client-view-modal/client-view-modal.component';
 import { ClientEditModalComponent } from './client-edit-modal/client-edit-modal.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { FamilyModalComponent } from './family-modal/family-modal.component';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     ClientFormComponent,
     ClientViewModalComponent,
     ClientEditModalComponent,
+    FamilyModalComponent
   ],
   imports: [SharedModule, ClientsRoutingModule, NgxPaginationModule],
 })
