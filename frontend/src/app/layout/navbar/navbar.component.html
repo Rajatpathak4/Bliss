@@ -140,15 +140,8 @@
     <!-- Profile -->
     <div class="action-item">
       <button class="profile-btn" (click)="toggleProfile($event)">
-        <img
-          *ngIf="avatarFullUrl"
-          [src]="avatarFullUrl"
-          class="nx-avatar profile-btn__avatar profile-btn__avatar--img"
-          alt="Profile photo"
-        />
-        <span *ngIf="!avatarFullUrl" class="nx-avatar profile-btn__avatar">{{
-          initials
-        }}</span>
+        <img *ngIf="avatarFullUrl" [src]="avatarFullUrl" class="nx-avatar profile-btn__avatar profile-btn__avatar--img" alt="Profile photo" />
+<span *ngIf="!avatarFullUrl" class="nx-avatar profile-btn__avatar">{{ initials }}</span>
         <span class="profile-btn__name">{{ shortName }}</span>
         <svg
           class="profile-btn__chev"

@@ -69,10 +69,9 @@ export class NavbarComponent implements OnInit {
     return this.user?.avatarInitials ?? "NA";
   }
 
-  get avatarFullUrl(): string | null {
-    if (!this.user?.avatarUrl) return null;
-    return `${environment.apiBaseUrl}${this.user.avatarUrl}`;
-  }
+get avatarFullUrl(): string | null {
+  return this.user?.avatarUrl ?? null;
+}
 
   get shortName(): string {
     if (!this.user) return "Guest";

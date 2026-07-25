@@ -36,10 +36,9 @@ export class ProfileComponent implements OnInit {
     return this.form.controls;
   }
 
-  get avatarFullUrl(): string | null {
-    if (!this.user?.avatarUrl) return null;
-    return `${environment.apiBaseUrl}${this.user.avatarUrl}`;
-  }
+ get avatarFullUrl(): string | null {
+  return this.user?.avatarUrl ?? null;
+}
 
   loadProfile(): void {
     this.api.requestCall(API_ENDPOINTS.GET_PROFILE, ApiMethod.GET).subscribe({
