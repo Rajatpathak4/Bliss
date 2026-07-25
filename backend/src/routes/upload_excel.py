@@ -16,6 +16,9 @@ import os
 import tempfile
 from modules.login.crud import get_user_profile, update_user_avatar, update_user_profile
 from modules.login.schemas import ProfileUpdateSchema 
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 is_valid = [Depends(tokenvalidation),Depends(is_readable)]
 routes = APIRouter(
@@ -24,10 +27,14 @@ routes = APIRouter(
 )
 configObj = get_setting()
 
+cloudinary.config(
+    cloud_name=configObj.CLOUDINARY_CLOUD_NAME,
+    api_key=configObj.CLOUDINARY_API_KEY,
+    api_secret=configObj.CLOUDINARY_API_SECRET,
+    secure=True
+)
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ALLOWED_IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp"}
-AVATAR_UPLOAD_DIR = os.path.join(BASE_DIR, "media", "avatars")
 
 @routes.post('/upload_user_excel')
 def upload_user_excel(files: UploadFile = File(...), db:Session= Depends(get_db), serviceRequest: Request = None):
@@ -134,25 +141,25 @@ def update_profile(payload: ProfileUpdateSchema,request: Request,db: Session = D
 
 @routes.post("/upload-image")
 def upload_avatar(request: Request, file: UploadFile = File(...), db: Session = Depends(get_db)):
-   user_id = request.session["userData"]["id"]
+    user_id = request.session["userData"]["id"]
 
-   file_extension = os.path.splitext(file.filename)[1].lower()
-   if file_extension not in ALLOWED_IMAGE_EXTENSIONS:
-      return customhelper.printCustmMsg(200, "FALSE", "Unsupported image type")
+    file_extension = os.path.splitext(file.filename)[1].lower()
+    if file_extension not in ALLOWED_IMAGE_EXTENSIONS:
+        return customhelper.printCustmMsg(200, "FALSE", "Unsupported image type")
 
-   os.makedirs(AVATAR_UPLOAD_DIR, exist_ok=True)
+    try:
+        upload_result = cloudinary.uploader.upload(
+            file.file,
+            folder="avatars",
+            public_id=f"{uuid.uuid4().hex}",
+            overwrite=True,
+            resource_type="image"
+        )
+    except Exception as e:
+        return customhelper.printCustmMsg(200, "FALSE", f"Image upload failed: {str(e)}")
 
-   unique_filename = f"{uuid.uuid4().hex}{file_extension}"
-   file_path = os.path.join(AVATAR_UPLOAD_DIR, unique_filename)
-   print("AVATAR_UPLOAD_DIR resolved to:", os.path.abspath(AVATAR_UPLOAD_DIR))
-   try:
-      with open(file_path, "wb") as destination_file:
-         shutil.copyfileobj(file.file, destination_file)
-   except Exception as e:
-      return customhelper.printCustmMsg(200, "FALSE", f"File save failed: {str(e)}")
+    avatar_url = upload_result.get("secure_url")
+    if not avatar_url:
+        return customhelper.printCustmMsg(200, "FALSE", "Upload succeeded but no URL returned")
 
-   if not os.path.exists(file_path):
-      return customhelper.printCustmMsg(200, "FALSE", "File was not saved to disk")
-
-   avatar_url = f"/media/avatars/{unique_filename}"
-   return update_user_avatar(db, user_id, avatar_url)
+    return update_user_avatar(db, user_id, avatar_url)

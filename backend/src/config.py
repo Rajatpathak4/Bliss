@@ -19,6 +19,11 @@ class Settings():
     # Token
     SECRET_KEY: str = os.getenv("SECRET_KEY").strip()
     ALGORITHM: str = os.getenv("ALGORITHM").strip()
+
+    CLOUDINARY_CLOUD_NAME: str =  os.getenv("CLOUDINARY_CLOUD_NAME").strip()
+    CLOUDINARY_API_KEY: str =  os.getenv("CLOUDINARY_API_KEY").strip()
+    CLOUDINARY_API_SECRET: str =  os.getenv("CLOUDINARY_API_SECRET").strip()
+
 @lru_cache()
 def get_setting():
     return Settings()
