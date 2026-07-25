@@ -1,6 +1,8 @@
 import sys
 import os
 
+from routes import agent
+
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from functools import lru_cache
@@ -67,6 +69,8 @@ app.include_router(users.routes)
 app.include_router(dashboard.routes)
 app.include_router(upload_excel.routes)
 app.include_router(alerts.routes)
+app.include_router(agent.routes)
+
 
 # ------------------ Root ------------------
 BASE_DIR = os.path.dirname(os.path.abspath(__file__)) 

@@ -268,7 +268,8 @@ def get_user_table_data(page_no, limit, db, serviceRequest, search=None):
                 UserExcel.phone_number,
                 UserExcel.policy_number,
                 UserExcel.mode,
-                UserExcel.address
+                UserExcel.address,
+                UserExcel.family_code,
             )
             .filter(
                 UserExcel.is_deleted == False,
@@ -306,7 +307,8 @@ def get_user_table_data(page_no, limit, db, serviceRequest, search=None):
                 "phone_number": user.phone_number,
                 "policy_number": user.policy_number,
                 "mode": user.mode,
-                "address": user.address
+                "address": user.address,
+                "family_code": user.family_code,
             })
 
         return customhelper.printCustmMsg(
