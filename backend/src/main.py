@@ -84,27 +84,27 @@ def root():
 scheduler = BackgroundScheduler()
 
 
-def notification_scheduler():
-    db = SessionLocal()
-    try:
-        print("IN Scheduler")
-        create_fup_notifications(db)
-    except Exception as e:
-        print(f"Notification Scheduler Error: {e}")
-    finally:
-        db.close()
+# def notification_scheduler():
+#     db = SessionLocal()
+#     try:
+#         print("IN Scheduler")
+#         create_fup_notifications(db)
+#     except Exception as e:
+#         print(f"Notification Scheduler Error: {e}")
+#     finally:
+#         db.close()
 
 
-@app.on_event("startup")
-def startup_event():
-    scheduler.add_job(notification_scheduler, trigger="cron", hour=8,minute=0)
-    scheduler.add_job(notification_scheduler, trigger="cron", hour=12,minute=0)
-    scheduler.add_job(notification_scheduler, trigger="cron", hour=19,minute=0)
+# @app.on_event("startup")
+# def startup_event():
+#     scheduler.add_job(notification_scheduler, trigger="cron", hour=8,minute=0)
+#     scheduler.add_job(notification_scheduler, trigger="cron", hour=12,minute=0)
+#     scheduler.add_job(notification_scheduler, trigger="cron", hour=19,minute=0)
 
-    scheduler.start()
+#     scheduler.start()
 
 
-@app.on_event("shutdown")
-def shutdown_event():
-    if scheduler.running:
-        scheduler.shutdown()
+# @app.on_event("shutdown")
+# def shutdown_event():
+#     if scheduler.running:
+#         scheduler.shutdown()

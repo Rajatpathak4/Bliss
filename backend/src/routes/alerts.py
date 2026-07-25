@@ -5,7 +5,7 @@ from config import get_setting
 from database.database import get_db
 from helper import customhelper
 from helper.sessionData import getSessionUserId
-from modules.alerts.crud import get_manual_notification
+from modules.alerts.crud import create_fup_notifications, get_manual_notification
 from dependencies import tokenvalidation,is_readable
 from modules.alerts.models import UserNotification
 
@@ -98,4 +98,11 @@ def mark_all_notifications_read(db: Session = Depends(get_db), serviceRequest: R
         return customhelper.printCustmMsg(200, 'TRUE', 'All marked as read')
     except Exception as err:
         db.rollback()
+        return customhelper.print_error_with_linenumebr(err)
+
+@routes('/create_fup_notifications')
+def send_email_notification(db: Session = Depends(get_db)):
+    try:
+        return create_fup_notifications(db)
+    except Exception as err:
         return customhelper.print_error_with_linenumebr(err)

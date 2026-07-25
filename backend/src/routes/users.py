@@ -31,7 +31,6 @@ def signup(payload: schemas.UserCreate, db: Session = Depends(get_db)):
 
     token = auth.create_access_token({"sub": str(user.id)})
 
-    # yeh part missing tha — login ki tarah token ko LoginTokens mein bhi save karo
     db.add(models.LoginTokens(
         token=token,
         user_id=user.id,
