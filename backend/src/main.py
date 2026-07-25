@@ -1,23 +1,18 @@
 import sys
 import os
-
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-
 from functools import lru_cache
-
 from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 from starlette.middleware.sessions import SessionMiddleware
-
 from apscheduler.schedulers.background import BackgroundScheduler
-
 from config import Settings
 from database.database import engine, SessionLocal
 import modules.login.models as models
 from modules.alerts.crud import create_fup_notifications
 
-from routes import alerts, upload_excel, users, dashboard, agent
+from routes import alerts, upload_excel, users, dashboard, agent, cronjob
 from fastapi.staticfiles import StaticFiles
 
 models.Base.metadata.create_all(bind=engine)
@@ -68,6 +63,8 @@ app.include_router(dashboard.routes)
 app.include_router(upload_excel.routes)
 app.include_router(alerts.routes)
 app.include_router(agent.routes)
+app.include_router(cronjob.routes)
+
 
 
 # ------------------ Root ------------------

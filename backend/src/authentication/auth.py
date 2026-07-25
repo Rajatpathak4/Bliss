@@ -9,7 +9,6 @@ from sqlalchemy.orm import Session
 from database.database import get_db
 import modules.login.models as models
 
-# In real deployments load these from env / secrets, never hardcode.
 SECRET_KEY = "CHANGE_ME_super_secret_key_for_dev_only"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24  # 1 day
