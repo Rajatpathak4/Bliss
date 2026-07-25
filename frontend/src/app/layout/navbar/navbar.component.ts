@@ -50,7 +50,7 @@ export class NavbarComponent implements OnInit {
     this.notificationService.loadAlerts();
 
     // poll every 30s
-    timer(0, 500000).subscribe(() => this.notificationService.loadAlerts());
+    timer(0, 30000).subscribe(() => this.notificationService.loadAlerts());
   }
 
   private loadFreshProfile(): void {
