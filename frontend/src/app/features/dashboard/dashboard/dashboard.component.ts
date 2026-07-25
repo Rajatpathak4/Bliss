@@ -84,19 +84,26 @@ export class DashboardComponent implements OnInit {
       series: [{ type: 'areaspline', name: 'Revenue', data: data?.revenue ?? [] }],
     };
 
-    this.activeUsersChart = {
-      ...this.baseAxis(months),
-      chart: { type: 'spline', backgroundColor: 'transparent', height: 320 },
-      colors: ['#f59e0b'],
-      tooltip: { shared: true },
-      plotOptions: {
-        spline: {
-          lineWidth: 3,
-          marker: { enabled: true, radius: 4, fillColor: '#f59e0b', lineColor: '#fff', lineWidth: 2 },
-        },
+ this.activeUsersChart = {
+  ...this.baseAxis(months),
+  chart: { type: 'areaspline', backgroundColor: 'transparent', height: 320 },
+  colors: ['#f59e0b'],
+  tooltip: { shared: true },
+  plotOptions: {
+    areaspline: {
+      lineWidth: 3,
+      marker: { enabled: true, radius: 4, fillColor: '#f59e0b', lineColor: '#fff', lineWidth: 2 },
+      fillColor: {
+        linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+        stops: [
+          [0, 'rgba(245,158,11,0.25)'],
+          [1, 'rgba(245,158,11,0.0)'],
+        ],
       },
-      series: [{ type: 'spline', name: 'Active Users', data: data?.active_users ?? [] }],
-    };
+    },
+  },
+  series: [{ type: 'areaspline', name: 'Active Users', data: data?.active_users ?? [] }],
+};
 
     this.premiumDueChart = {
       ...this.baseAxis(months),
