@@ -23,7 +23,8 @@ class Settings():
     CLOUDINARY_CLOUD_NAME: str =  os.getenv("CLOUDINARY_CLOUD_NAME").strip()
     CLOUDINARY_API_KEY: str =  os.getenv("CLOUDINARY_API_KEY").strip()
     CLOUDINARY_API_SECRET: str =  os.getenv("CLOUDINARY_API_SECRET").strip()
-
+    CRON_SECRET: str =  os.getenv("CRON_SECRET").strip()
+    
 @lru_cache()
 def get_setting():
     return Settings()
