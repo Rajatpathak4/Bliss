@@ -1,8 +1,6 @@
 import sys
 import os
 
-from routes import agent
-
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from functools import lru_cache
@@ -19,7 +17,7 @@ from database.database import engine, SessionLocal
 import modules.login.models as models
 from modules.alerts.crud import create_fup_notifications
 
-from routes import alerts, upload_excel, users, dashboard
+from routes import alerts, upload_excel, users, dashboard, agent
 from fastapi.staticfiles import StaticFiles
 
 models.Base.metadata.create_all(bind=engine)
