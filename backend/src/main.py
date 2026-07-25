@@ -95,16 +95,11 @@ def notification_scheduler():
 
 @app.on_event("startup")
 def startup_event():
-    if not scheduler.running:
-        scheduler.add_job(
-            notification_scheduler,
-            trigger="cron",
-            hour=8,
-            minute=0,
-            id="notification_scheduler",
-            replace_existing=True,
-        )
-        scheduler.start()
+    scheduler.add_job(notification_scheduler, trigger="cron", hour=8,minute=0)
+    scheduler.add_job(notification_scheduler, trigger="cron", hour=12,minute=0)
+    scheduler.add_job(notification_scheduler, trigger="cron", hour=19,minute=0)
+
+    scheduler.start()
 
 
 @app.on_event("shutdown")

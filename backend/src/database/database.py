@@ -9,9 +9,6 @@ from sqlalchemy.ext.declarative import declarative_base
 # PG_DB_URL = f"postgresql://{settings.PG_DB_USER}:{quote_plus(settings.PG_DB_PASSWORD)}@{settings.PG_DB_SERVER}/{settings.PG_DATABASE}"
 PG_DB_URL = f"postgresql://{settings.PG_DB_USER}:{quote_plus(settings.PG_DB_PASSWORD)}@{settings.PG_DB_SERVER}/{settings.PG_DATABASE}?sslmode=require&channel_binding=require"
 
-
-print('PG_DB_URL:', PG_DB_URL)
-
 # Module-level engine + session factory — yeh woh naam hain jo main.py import karta hai
 engine = create_engine(
     PG_DB_URL,
