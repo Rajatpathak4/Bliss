@@ -18,6 +18,7 @@ export interface SignupRequest {
   fullName: string;
   email: string;
   password: string;
+  theme? : string;
 }
 
 /** Normalized auth result used throughout the app. */
