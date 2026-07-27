@@ -16,6 +16,7 @@ class Users(Base):
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
     updated_by = Column(Integer, nullable=True)
     is_deleted = Column(Boolean, default=False)
+    theme = Column(String, nullable = False)
     profile = relationship("UserProfile", back_populates="user", uselist=False)
 class LoginTokens(Base):
     __tablename__='token'
