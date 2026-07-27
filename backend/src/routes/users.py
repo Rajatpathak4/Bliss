@@ -24,7 +24,7 @@ def signup(payload: schemas.UserCreate, db: Session = Depends(get_db)):
         name=payload.name,
         email=payload.email,
         password=auth.hash_password(payload.password),
-        theme = payload.theme
+        theme='light',
     )
     db.add(user)
     db.commit()
@@ -67,5 +67,10 @@ def logout(user_id: int, db: Session = Depends(get_db)):
 def update_token(userrequest: schemas.UserLogin,request: Request,db: Session = Depends(get_db)):
     return update_auth_token(userrequest, db)
 
-
-
+@routes.post("/update-theme")
+def update_theme(payload: dict, request: Request, db: Session = Depends(get_db)):
+    user_id = request.session["userData"]["id"]
+    user = db.query(models.Users).filter(models.Users.id == user_id).first()
+    user.theme = payload.get("theme")
+    db.commit()
+    return customhelper.printCustmMsg(200, "TRUE", "Theme updated")

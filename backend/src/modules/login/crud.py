@@ -99,6 +99,8 @@ def user_login(user_schema, db):
             "redirectUrl": DASHBOARD_REDIRECT_URL,
             "is_active": user.is_active,
             "current_time": now,
+            "theme": user.theme,
+
         }
 
         db.commit()
@@ -268,3 +270,4 @@ def update_user_avatar(db, user_id, avatar_url):
     except Exception:
         db.rollback()
         return customhelper.printCustmMsg(500, 'FALSE', "Something went wrong. Please try again.")
+

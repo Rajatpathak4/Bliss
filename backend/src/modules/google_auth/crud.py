@@ -30,14 +30,19 @@ def google_login(db, token: str):
     email = idinfo["email"].lower()
     name = idinfo.get("name", email.split("@")[0])
 
-    user = db.query(Users).filter(Users.email == email, Users.is_deleted == False).first()  # noqa: E712
+    user = db.query(Users).filter(Users.email == email).first()
 
     if not user:
+        # bilkul naya user, insert karo
         random_password = bcrypt_context.hash(uuid.uuid4().hex)
         user = Users(name=name, email=email, password=random_password)
         db.add(user)
         db.commit()
         db.refresh(user)
+    elif user.is_deleted:
+        user.is_deleted = False
+        user.name = name 
+        db.commit()
 
     now = datetime.now()
     expiry_minutes = 180
@@ -56,3 +61,4 @@ def google_login(db, token: str):
         "redirectUrl": "/dashboard",
     }
     return customhelper.printCustmMsg(200, "TRUE", "Google login successful", user_dict)
+
