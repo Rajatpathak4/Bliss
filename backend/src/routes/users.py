@@ -24,6 +24,7 @@ def signup(payload: schemas.UserCreate, db: Session = Depends(get_db)):
         name=payload.name,
         email=payload.email,
         password=auth.hash_password(payload.password),
+        theme = payload.theme
     )
     db.add(user)
     db.commit()
