@@ -32,15 +32,7 @@ app = FastAPI(
     swagger_ui_parameters={"defaultModelsExpandDepth": -1},
 )
 
-# ------------------ CORS ------------------
-
-origins = [
-    "http://localhost:4200",
-    "https://bliss-dun-six.vercel.app",
-    "https://bliss-vnts.vercel.app",
-    
-]
-
+origins = ["*"]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,

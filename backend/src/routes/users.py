@@ -24,6 +24,7 @@ def signup(payload: schemas.UserCreate, db: Session = Depends(get_db)):
         name=payload.name,
         email=payload.email,
         password=auth.hash_password(payload.password),
+        theme = payload.theme
     )
     db.add(user)
     db.commit()
@@ -38,7 +39,7 @@ def signup(payload: schemas.UserCreate, db: Session = Depends(get_db)):
     ))
     db.commit()
 
-    return {"access_token": token, "token_type": "bearer", "user": user}
+    return {"access_token": token, "token_type": "bearer", "user": user, "theme" : theme}
 
 @routes.post("/login")
 def login(user_request: schemas.UserLogin, request: Request, db: Session = Depends(get_db)):

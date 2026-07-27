@@ -6,6 +6,7 @@ class UserCreate(BaseModel):
     name: str = Field(..., min_length=2, max_length=60)
     email: EmailStr
     password: str = Field(..., min_length=4, max_length=128)
+    theme : str
 
 
 class UserLogin(BaseModel):
