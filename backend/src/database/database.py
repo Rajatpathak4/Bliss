@@ -6,8 +6,8 @@ from config import Settings as settings
 from sqlalchemy import MetaData
 from sqlalchemy.ext.declarative import declarative_base
 
-# PG_DB_URL = f"postgresql://{settings.PG_DB_USER}:{quote_plus(settings.PG_DB_PASSWORD)}@{settings.PG_DB_SERVER}/{settings.PG_DATABASE}"
-PG_DB_URL = f"postgresql://{settings.PG_DB_USER}:{quote_plus(settings.PG_DB_PASSWORD)}@{settings.PG_DB_SERVER}/{settings.PG_DATABASE}?sslmode=require&channel_binding=require"
+PG_DB_URL = f"postgresql://{settings.PG_DB_USER}:{quote_plus(settings.PG_DB_PASSWORD)}@{settings.PG_DB_SERVER}/{settings.PG_DATABASE}"
+# PG_DB_URL = f"postgresql://{settings.PG_DB_USER}:{quote_plus(settings.PG_DB_PASSWORD)}@{settings.PG_DB_SERVER}/{settings.PG_DATABASE}?sslmode=require&channel_binding=require"
 
 engine = create_engine(
     PG_DB_URL,
