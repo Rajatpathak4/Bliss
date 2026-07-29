@@ -1,24 +1,31 @@
 from datetime import datetime, timedelta
 import uuid
-
-from google.oauth2 import id_token
-from google.auth.transport import requests as google_requests
-
 from helper import customhelper
 from helper.customhelper import create_access_token, bcrypt_context
 from modules.login.models import Users, LoginTokens
 from config import get_setting
+import requests
 
 configObj = get_setting()
+
+GOOGLE_TOKENINFO_URL = "https://oauth2.googleapis.com/tokeninfo"
 
 
 def verify_google_token(token: str):
     try:
-        idinfo = id_token.verify_oauth2_token(
-            token, google_requests.Request(), configObj.GOOGLE_CLIENT_ID
-        )
+        response = requests.get(GOOGLE_TOKENINFO_URL, params={"id_token": token}, timeout=5)
+        if response.status_code != 200:
+            return None
+
+        idinfo = response.json()
+
+        if idinfo.get("aud") != configObj.GOOGLE_CLIENT_ID:
+            print(f"[GOOGLE TOKEN] audience mismatch: {idinfo.get('aud')}")
+            return None
+
         return idinfo
-    except ValueError:
+    except Exception as e:
+        print(f"[GOOGLE TOKEN VERIFY FAILED]: {e}")
         return None
 
 
@@ -33,7 +40,6 @@ def google_login(db, token: str):
     user = db.query(Users).filter(Users.email == email).first()
 
     if not user:
-        # bilkul naya user, insert karo
         random_password = bcrypt_context.hash(uuid.uuid4().hex)
         user = Users(name=name, email=email, password=random_password)
         db.add(user)
@@ -41,7 +47,7 @@ def google_login(db, token: str):
         db.refresh(user)
     elif user.is_deleted:
         user.is_deleted = False
-        user.name = name 
+        user.name = name
         db.commit()
 
     now = datetime.now()
@@ -61,4 +67,3 @@ def google_login(db, token: str):
         "redirectUrl": "/dashboard",
     }
     return customhelper.printCustmMsg(200, "TRUE", "Google login successful", user_dict)
-
