@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -10,6 +10,8 @@ import { AuthService } from '../../../core/services/auth.service';
   styleUrls: ['./forgot-password.component.scss'],
 })
 export class ForgotPasswordComponent {
+  private fb = inject(FormBuilder);
+
   step = 1;
   loading = false;
   message = '';
@@ -34,7 +36,6 @@ export class ForgotPasswordComponent {
   });
 
   constructor(
-    private fb: FormBuilder,
     private auth: AuthService,
     private router: Router
   ) {}

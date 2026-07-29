@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Client } from '../../../core/models/client.model';
 
@@ -8,13 +8,12 @@ import { Client } from '../../../core/models/client.model';
   styleUrls: ['./client-edit-modal.component.scss'],
 })
 export class ClientEditModalComponent implements OnChanges {
+  private fb = inject(FormBuilder);
 
   @Input() client!: Client;
 
   @Output() save = new EventEmitter<Client>();
   @Output() close = new EventEmitter<void>();
-
-  constructor(private fb: FormBuilder) {}
 
   form = this.fb.group({
     family_code: [''],

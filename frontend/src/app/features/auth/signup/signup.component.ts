@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AbstractControl, FormBuilder, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -10,6 +10,8 @@ import { AuthService } from '../../../core/services/auth.service';
   styleUrls: ['./signup.component.scss'],
 })
 export class SignupComponent {
+  private fb = inject(FormBuilder);
+
   loading = false;
   errorMsg = '';
 showPassword = false
@@ -24,7 +26,6 @@ showPassword = false
   );
 
   constructor(
-    private fb: FormBuilder,
     private auth: AuthService,
     private router: Router
   ) {}

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 
 import { NewClient } from '../../../core/models/client.model';
@@ -9,6 +9,7 @@ import { NewClient } from '../../../core/models/client.model';
   styleUrls: ['./client-form.component.scss']
 })
 export class ClientFormComponent {
+  private fb = inject(FormBuilder);
 
   @Output() added = new EventEmitter<NewClient>();
 
@@ -36,8 +37,6 @@ export class ClientFormComponent {
     nominee: ['']
 
   });
-
-  constructor(private fb: FormBuilder) {}
 
   get f() {
     return this.form.controls;

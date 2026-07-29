@@ -12,6 +12,8 @@ export const API_ENDPOINTS = {
   LOGOUT: '/auth/logout',
   RE_LOGIN: '/auth/re-login',
   GOOGLE_LOGIN: '/google-login',
+  UPDATE_THEME:'/auth/update-theme',
+
   // ---- Notifications ----
   ALERTS: '/get_notifications',
   MARK_NOTIFICATION_READ: '/mark_notification_read',
@@ -42,7 +44,6 @@ export const API_ENDPOINTS = {
   UPDATE_COMMISSION_RATE: '/commission/rate',
   UPDATE_COMMISSION_STATUS: '/commission/status',
 
-  UPDATE_THEME:'/update-theme',
 
 
 

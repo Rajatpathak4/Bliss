@@ -4,7 +4,6 @@ import { catchError, map } from 'rxjs/operators';
 
 import { ApiService } from './api.service';
 import { API_ENDPOINTS, ApiMethod } from '../constants/api-endpoints.constant';
-import { SeriesData, StatCard } from '../models/dashboard.model';
 
 /**
  * Shapes the two dashboard endpoints are expected to return. Every field is

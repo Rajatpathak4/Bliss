@@ -14,7 +14,6 @@ import {
 import { GlobalServiceService } from "./global-service.service";
 import { Router, ActivatedRoute } from "@angular/router";
 import { ThemeService } from "./theme.service";
-import { SocialAuthService } from "@abacritt/angularx-social-login";
 
 const TOKEN_KEY = "nexadmin.token";
 const USER_KEY = "nexadmin.user";
@@ -29,7 +28,6 @@ export class AuthService {
     private router: Router,
     private route: ActivatedRoute,
     private themeService: ThemeService,
-    private socialAuth: SocialAuthService,
   ) {}
 
   login(payload: LoginRequest): Observable<any> {
@@ -135,35 +133,14 @@ export class AuthService {
       );
   }
 
-  // logout(user_id: number) {
-  //   this.clearSession();
-  //   // return this.httpService.requestCall(API_ENDPOINTS.LOGOUT, ApiMethod.POST).pipe(catchError(() => of(null)));
-
-  //   const url = `${API_ENDPOINTS.LOGOUT}?user_id=${user_id}`;
-  //   this.httpService.requestCall(url, ApiMethod.GET).subscribe((data) => {
-  //     // this.profileOpen = false;
-  //     this.clearSession?.();
-  //     this.router.navigate(["/auth/login"]);
-  //     this.globalService.showToastr(data?.message, "success");
-  //   });
-  // }
 
 logout(user_id: number) {
 
   // Clear local storage immediately
   this.clearSession();
 
-  // Sign out Google
-  this.socialAuth
-  .signOut()
-  .then(() => console.log("Google sign out success"))
-  .catch((err) => console.error("Google sign out failed", err));
-
-  // Disable automatic login
-  if ((window as any).google?.accounts?.id) {
-    (window as any).google.accounts.id.disableAutoSelect();
-    (window as any).google.accounts.id.cancel();
-  }
+  window.google?.accounts?.id?.disableAutoSelect();
+  window.google?.accounts?.id?.cancel();
 
   // Backend logout
   const url = `${API_ENDPOINTS.LOGOUT}?user_id=${user_id}`;
@@ -253,7 +230,13 @@ logout(user_id: number) {
         token: idToken,
       })
       .pipe(
-        tap((res: any) => this.persistSession(this.normalizeFlow(res, ""))),
+        tap((res: any) => {
+          if (res?.status && res.status !== "TRUE") {
+            throw new Error(res?.message || "Google login failed");
+          }
+
+          this.persistSession(this.normalizeFlow(res, ""));
+        }),
       );
   }
   
