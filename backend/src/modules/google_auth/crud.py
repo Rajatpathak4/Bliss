@@ -64,6 +64,7 @@ def google_login(db, token: str):
         "name": user.name,
         "email": user.email,
         "token": access_token,
+        "theme": user.theme,
         "redirectUrl": "/dashboard",
     }
     return customhelper.printCustmMsg(200, "TRUE", "Google login successful", user_dict)

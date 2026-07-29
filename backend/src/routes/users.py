@@ -39,16 +39,19 @@ def signup(payload: schemas.UserCreate, db: Session = Depends(get_db)):
     ))
     db.commit()
 
-    return {"access_token": token, "token_type": "bearer", "user": user, "theme" : theme}
+    return {"access_token": token, "token_type": "bearer", "user": user, "theme": user.theme}
+
 
 @routes.post("/login")
 def login(user_request: schemas.UserLogin, request: Request, db: Session = Depends(get_db)):
     customhelper.do_nothing(request)
     return user_login(user_request, db)
 
+
 @routes.get("/me", response_model=schemas.UserOut)
-def me(current:models.Users = Depends(auth.get_current_user)):
+def me(current: models.Users = Depends(auth.get_current_user)):
     return current
+
 
 @routes.get("/logout")
 def logout(user_id: int, db: Session = Depends(get_db)):
@@ -63,14 +66,18 @@ def logout(user_id: int, db: Session = Depends(get_db)):
     db.commit()
     return {"message": "Logout successful"}
 
+
 @routes.post("/re-login")
-def update_token(userrequest: schemas.UserLogin,request: Request,db: Session = Depends(get_db)):
+def update_token(userrequest: schemas.UserLogin, request: Request, db: Session = Depends(get_db)):
     return update_auth_token(userrequest, db)
 
+
 @routes.post("/update-theme")
-def update_theme(payload: dict, request: Request, db: Session = Depends(get_db)):
-    user_id = request.session["userData"]["id"]
+def update_theme(user_id: int, payload: dict, db: Session = Depends(get_db)):
     user = db.query(models.Users).filter(models.Users.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
     user.theme = payload.get("theme")
     db.commit()
     return customhelper.printCustmMsg(200, "TRUE", "Theme updated")
